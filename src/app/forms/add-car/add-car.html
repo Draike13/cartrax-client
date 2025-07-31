@@ -1,0 +1,51 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <mat-form-field appearance="outline" style="width: 80%">
+    <mat-label>Make</mat-label>
+    <input matInput formControlName="make" />
+    <mat-error *ngIf="form.get('make')?.touched && form.get('make')?.invalid">
+      Car make is required
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" style="width: 80%">
+    <mat-label>Model</mat-label>
+    <input matInput formControlName="model" />
+    <mat-error *ngIf="form.get('model')?.touched && form.get('model')?.invalid">
+      Car model is required
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" style="width: 80%">
+    <mat-label>Year</mat-label>
+    <input matInput formControlName="year" />
+    <mat-error *ngIf="form.get('year')?.touched && form.get('year')?.invalid">
+      Car year is required
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" style="width: 80%">
+    <mat-label>Color</mat-label>
+    <input matInput formControlName="color" />
+    <mat-error *ngIf="form.get('color')?.touched && form.get('color')?.invalid">
+      Car color is required
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" style="width: 80%">
+    <mat-label>Mileage</mat-label>
+    <input matInput formControlName="mileage" />
+    <mat-error
+      *ngIf="form.get('mileage')?.touched && form.get('mileage')?.invalid"
+    >
+      Car mileage is required
+    </mat-error>
+  </mat-form-field>
+
+  <div style="margin-top: 16px; text-align: right">
+    <button mat-button type="button">Cancel</button>
+    <button
+      mat-flat-button
+      color="primary"
+      type="submit"
+      [disabled]="form.invalid"
+    >
+      Save
+    </button>
+  </div>
+</form>

@@ -1,6 +1,8 @@
 <h1>car-list works!</h1>
 <button (click)="goToMainPage()">go to main page</button>
-
+<button (click)="openDialog(); changeView('addCar')">Add Car</button>
+<button (click)="openDialog(); changeView('addItem')">Add Item</button>
+<button (click)="openDialog(); changeView('addCustomer')">Add Customer</button>
 <ul>
   @for (car of cars(); track $index) {
   <li>{{ car.model }}</li>
