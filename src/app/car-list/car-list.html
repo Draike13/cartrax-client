@@ -1,0 +1,8 @@
+<h1>car-list works!</h1>
+<button (click)="goToMainPage()">go to main page</button>
+
+<ul>
+  @for (car of cars(); track $index) {
+  <li>{{ car.model }}</li>
+  }
+</ul>
