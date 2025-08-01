@@ -3,7 +3,9 @@ export interface Car {
   vin: string;
   model: string;
   make: string;
+  trim: string;
   year: number;
   color: string;
   mileage: number;
+  notes?: string;
 }

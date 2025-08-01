@@ -13,6 +13,7 @@ export class Api {
   private carSignal: WritableSignal<Car[]> = signal([]);
   cars = () => this.carSignal;
   constructor(private http: HttpClient) {
+    //get cars from API and convert to Signal
     this.getCars = toSignal(this.http.get<Car[]>(`${this.baseUrl}/cars`), {
       initialValue: [],
     });
@@ -29,6 +30,20 @@ export class Api {
       this.carSignal.update((cars) => [...cars, createdCar]);
     } catch (error) {
       console.error('Error creating car:', error);
+    }
+  }
+
+  async updateCar(id: number, udatedCar: Car) {
+    try {
+      const updated = await firstValueFrom(
+        this.http.put<Car>(`${this.baseUrl}/cars/${id}`, { car: udatedCar })
+      );
+      //update the local signal
+      this.carSignal.update((cars) =>
+        cars.map((car) => (car.id === id ? updated : car))
+      );
+    } catch (error) {
+      console.error('Error updating car:', error);
     }
   }
 }

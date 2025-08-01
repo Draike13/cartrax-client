@@ -22,7 +22,12 @@
         <td>{{ car.model }}</td>
         <td>{{ car.mileage }}</td>
         <td>
-          <button mat-icon-button color="primary" aria-label="Edit car">
+          <button
+            mat-icon-button
+            color="primary"
+            aria-label="Edit car"
+            (click)="openDialog(); editCar(car)"
+          >
             <mat-icon>edit</mat-icon>
           </button>
           <button mat-icon-button color="warn" aria-label="Delete car">

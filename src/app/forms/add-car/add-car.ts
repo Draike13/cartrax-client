@@ -9,6 +9,7 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Api } from '../../services/api';
+import { Car } from '../../models/car';
 
 @Component({
   selector: 'app-add-car',

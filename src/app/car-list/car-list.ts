@@ -31,7 +31,11 @@ export class CarList {
   openDialog() {
     this.dialogSevice.open();
   }
-  changeView(view: 'addCar' | 'addItem' | 'addCustomer') {
+  changeView(view: 'addCar' | 'editCar' | 'addItem' | 'addCustomer') {
     this.dialogSevice.changeView(view);
+  }
+  editCar(selectedCar: Car) {
+    this.dialogSevice.selectedCar.set(selectedCar);
+    this.changeView('editCar');
   }
 }
