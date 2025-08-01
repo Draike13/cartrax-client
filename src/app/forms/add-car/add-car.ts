@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { Api } from '../../services/api';
 
 @Component({
   selector: 'app-add-car',
@@ -22,13 +23,16 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class AddCar {
   form: FormGroup;
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private apiService: Api) {
     this.form = this.fb.group({
+      vin: ['', Validators.required],
       make: ['', Validators.required],
       model: ['', Validators.required],
       year: ['', Validators.required],
-      mileage: ['', Validators.required],
+      trim: ['', Validators.required],
       color: ['', Validators.required],
+      mileage: ['', Validators.required],
+      notes: [''],
     });
   }
 
@@ -36,5 +40,6 @@ export class AddCar {
     if (this.form.invalid) return;
 
     console.log('Form Submitted', this.form.value);
+    this.apiService.createCar(this.form.value);
   }
 }

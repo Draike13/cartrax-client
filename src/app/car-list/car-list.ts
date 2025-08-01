@@ -3,10 +3,13 @@ import { Router } from '@angular/router';
 import { Api } from '../services/api';
 import { Car } from '../models/car';
 import { Dialog } from '../services/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-car-list',
-  imports: [],
+  imports: [MatIconModule, MatTableModule, MatButtonModule],
   templateUrl: './car-list.html',
   styleUrl: './car-list.css',
 })

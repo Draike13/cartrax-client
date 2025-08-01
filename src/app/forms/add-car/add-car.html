@@ -1,5 +1,12 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
   <mat-form-field appearance="outline" style="width: 80%">
+    <mat-label>VIN</mat-label>
+    <input matInput formControlName="vin" />
+    <mat-error *ngIf="form.get('vin')?.touched && form.get('vin')?.invalid">
+      Vehicle Identification Number(VIN) is required
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" style="width: 80%">
     <mat-label>Make</mat-label>
     <input matInput formControlName="make" />
     <mat-error *ngIf="form.get('make')?.touched && form.get('make')?.invalid">
@@ -21,6 +28,13 @@
     </mat-error>
   </mat-form-field>
   <mat-form-field appearance="outline" style="width: 80%">
+    <mat-label>Trim</mat-label>
+    <input matInput formControlName="trim" />
+    <mat-error *ngIf="form.get('trim')?.touched && form.get('trim')?.invalid">
+      Car trim is required
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" style="width: 80%">
     <mat-label>Color</mat-label>
     <input matInput formControlName="color" />
     <mat-error *ngIf="form.get('color')?.touched && form.get('color')?.invalid">
@@ -35,6 +49,10 @@
     >
       Car mileage is required
     </mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" style="width: 80%">
+    <mat-label>Notes</mat-label>
+    <input matInput formControlName="notes" />
   </mat-form-field>
 
   <div style="margin-top: 16px; text-align: right">

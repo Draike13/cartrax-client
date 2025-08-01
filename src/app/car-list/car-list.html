@@ -3,8 +3,34 @@
 <button (click)="openDialog(); changeView('addCar')">Add Car</button>
 <button (click)="openDialog(); changeView('addItem')">Add Item</button>
 <button (click)="openDialog(); changeView('addCustomer')">Add Customer</button>
-<ul>
-  @for (car of cars(); track $index) {
-  <li>{{ car.model }}</li>
-  }
-</ul>
+<div class="car-list-container">
+  <table>
+    <thead>
+      <tr>
+        <th>VIN</th>
+        <th>Make</th>
+        <th>Model</th>
+        <th>Mileage</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (car of cars(); track car.id) {
+      <tr>
+        <td>{{ car.vin }}</td>
+        <td>{{ car.make }}</td>
+        <td>{{ car.model }}</td>
+        <td>{{ car.mileage }}</td>
+        <td>
+          <button mat-icon-button color="primary" aria-label="Edit car">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" aria-label="Delete car">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>
