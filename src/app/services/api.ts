@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, signal, WritableSignal } from '@angular/core';
+import { effect, Injectable, signal, WritableSignal } from '@angular/core';
 import { Car } from '../models/car';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { firstValueFrom } from 'rxjs';
@@ -9,41 +9,38 @@ import { firstValueFrom } from 'rxjs';
 })
 export class Api {
   private baseUrl = 'https:cartrax-api.onrender.com/api';
-  readonly getCars;
-  private carSignal: WritableSignal<Car[]> = signal([]);
-  cars = () => this.carSignal;
+
+  updateSignal: WritableSignal<boolean> = signal(false);
+  cars: WritableSignal<Car[]> = signal([]);
+
   constructor(private http: HttpClient) {
-    //get cars from API and convert to Signal
-    this.getCars = toSignal(this.http.get<Car[]>(`${this.baseUrl}/cars`), {
-      initialValue: [],
+    //effect to control the refresh of the cars signal
+    effect(async () => {
+      if (this.updateSignal()) {
+        this.updateSignal.set(false);
+        const cars = await firstValueFrom(
+          this.http.get<Car[]>(`${this.baseUrl}/cars`)
+        );
+        this.cars.set(cars);
+      }
     });
   }
 
   async createCar(newCar: Car) {
-    try {
-      // Make POST request and wait for result
-      const createdCar = await firstValueFrom(
-        this.http.post<Car>(`${this.baseUrl}/cars`, { car: newCar })
-      );
-
-      // Update the local cars signal
-      this.carSignal.update((cars) => [...cars, createdCar]);
-    } catch (error) {
-      console.error('Error creating car:', error);
-    }
+    return firstValueFrom(
+      this.http.post<Car>(`${this.baseUrl}/cars`, { car: newCar })
+    ).then(() => this.updateSignal.set(true));
   }
 
   async updateCar(id: number, udatedCar: Car) {
-    try {
-      const updated = await firstValueFrom(
-        this.http.put<Car>(`${this.baseUrl}/cars/${id}`, { car: udatedCar })
-      );
-      //update the local signal
-      this.carSignal.update((cars) =>
-        cars.map((car) => (car.id === id ? updated : car))
-      );
-    } catch (error) {
-      console.error('Error updating car:', error);
-    }
+    return firstValueFrom(
+      this.http.put<Car>(`${this.baseUrl}/cars/${id}`, { car: udatedCar })
+    ).then(() => this.updateSignal.set(true));
+  }
+
+  async deleteCar(id: number) {
+    return firstValueFrom(this.http.delete(`${this.baseUrl}/cars/${id}`)).then(
+      () => this.updateSignal.set(true)
+    );
   }
 }

@@ -30,7 +30,12 @@
           >
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button color="warn" aria-label="Delete car">
+          <button
+            mat-icon-button
+            color="warn"
+            aria-label="Delete car"
+            (click)="deleteCar(car)"
+          >
             <mat-icon>delete</mat-icon>
           </button>
         </td>

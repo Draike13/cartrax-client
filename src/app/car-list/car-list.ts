@@ -21,7 +21,8 @@ export class CarList {
     private apiService: Api,
     private dialogSevice: Dialog
   ) {
-    this.cars = this.apiService.getCars;
+    this.apiService.updateSignal.set(true);
+    this.cars = this.apiService.cars;
   }
 
   goToMainPage() {
@@ -31,11 +32,21 @@ export class CarList {
   openDialog() {
     this.dialogSevice.open();
   }
-  changeView(view: 'addCar' | 'editCar' | 'addItem' | 'addCustomer') {
-    this.dialogSevice.changeView(view);
-  }
   editCar(selectedCar: Car) {
     this.dialogSevice.selectedCar.set(selectedCar);
     this.changeView('editCar');
+  }
+  deleteCar(car: Car) {
+    this.apiService
+      .deleteCar(car.id)
+      .then(() => {
+        console.log('Car deleted successfully');
+      })
+      .catch((error) => {
+        console.error('Error deleting car:', error);
+      });
+  }
+  changeView(view: 'addCar' | 'editCar' | 'addItem' | 'addCustomer') {
+    this.dialogSevice.changeView(view);
   }
 }

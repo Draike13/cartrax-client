@@ -41,6 +41,7 @@ export class AddCar {
     if (this.form.invalid) return;
 
     console.log('Form Submitted', this.form.value);
-    this.apiService.createCar(this.form.value);
+    this.apiService.createCar(this.form.value).then(() => {});
+    this.form.reset();
   }
 }
