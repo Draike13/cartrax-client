@@ -1,0 +1,50 @@
+.dialog-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two equal columns */
+  gap: 16px 32px;
+  justify-items: center;
+  padding: 16px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.form-header {
+  grid-column: 1 / -1; /* Span full width */
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 8px 0; /* Space below title */
+  padding-left: 4px; /* Align with input fields */
+}
+
+.form-field {
+  width: 100%;
+  max-width: 350px;
+}
+
+.full-width {
+  grid-column: 1 / -1; /* Span both columns */
+}
+
+/* VIN — bold and slightly bigger */
+.vin-field {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* Notes — smaller, lighter font */
+.notes-field {
+  grid-column: 1 / -1; /* Span both columns */
+  width: 92%; /* Fill grid space */
+  max-width: none; /* Allow it to expand fully */
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+/* Buttons row */
+.form-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+}

@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="submit()">
+<!-- <form [formGroup]="form" (ngSubmit)="submit()">
   <mat-form-field appearance="outline" style="width: 80%">
     <mat-label>VIN</mat-label>
     <input matInput formControlName="vin" />
@@ -56,6 +56,88 @@
   </mat-form-field>
 
   <div style="margin-top: 16px; text-align: right">
+    <button mat-button type="button" (click)="cancel()">Cancel</button>
+    <button
+      mat-flat-button
+      color="primary"
+      type="submit"
+      [disabled]="form.invalid"
+    >
+      Save
+    </button>
+  </div>
+</form> -->
+
+<form [formGroup]="form" (ngSubmit)="submit()" class="dialog-form">
+  <h1 class="form-header">Edit Vehicle</h1>
+
+  <mat-form-field appearance="outline" class="form-field full-width vin-field">
+    <mat-label>VIN</mat-label>
+    <input matInput formControlName="vin" />
+    <mat-error *ngIf="form.get('vin')?.touched && form.get('vin')?.invalid">
+      Vehicle Identification Number(VIN) is required
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="form-field">
+    <mat-label>Make</mat-label>
+    <input matInput formControlName="make" />
+    <mat-error *ngIf="form.get('make')?.touched && form.get('make')?.invalid">
+      Car make is required
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="form-field">
+    <mat-label>Model</mat-label>
+    <input matInput formControlName="model" />
+    <mat-error *ngIf="form.get('model')?.touched && form.get('model')?.invalid">
+      Car model is required
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="form-field">
+    <mat-label>Year</mat-label>
+    <input matInput formControlName="year" />
+    <mat-error *ngIf="form.get('year')?.touched && form.get('year')?.invalid">
+      Car year is required
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="form-field">
+    <mat-label>Trim</mat-label>
+    <input matInput formControlName="trim" />
+    <mat-error *ngIf="form.get('trim')?.touched && form.get('trim')?.invalid">
+      Car trim is required
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="form-field">
+    <mat-label>Color</mat-label>
+    <input matInput formControlName="color" />
+    <mat-error *ngIf="form.get('color')?.touched && form.get('color')?.invalid">
+      Car color is required
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="form-field">
+    <mat-label>Mileage</mat-label>
+    <input matInput formControlName="mileage" />
+    <mat-error
+      *ngIf="form.get('mileage')?.touched && form.get('mileage')?.invalid"
+    >
+      Car mileage is required
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field
+    appearance="outline"
+    class="form-field full-width notes-field"
+  >
+    <mat-label>Notes</mat-label>
+    <input matInput formControlName="notes" />
+  </mat-form-field>
+
+  <div class="form-actions">
     <button mat-button type="button" (click)="cancel()">Cancel</button>
     <button
       mat-flat-button

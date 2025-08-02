@@ -17,8 +17,8 @@ export class Dialog {
 
   open() {
     this.dialog.open(InputDialog, {
-      width: '800px',
-      height: '600px',
+      width: '80vw',
+      maxWidth: '900px',
     });
   }
 

@@ -1,0 +1,19 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav mode="side" opened class="sidenav">
+    <div class="logo">🚗 My Garage</div>
+
+    <nav>
+      @for (link of navLinks; track link.route) {
+      <button mat-button (click)="navigate(link.route)" class="nav-btn">
+        <mat-icon>{{ link.icon }}</mat-icon>
+        <span>{{ link.label }}</span>
+      </button>
+      }
+    </nav>
+  </mat-sidenav>
+
+  <!-- This will project whatever is in <router-outlet> -->
+  <mat-sidenav-content>
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>

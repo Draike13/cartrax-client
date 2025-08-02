@@ -1,0 +1,49 @@
+.app-container {
+  background-color: grey;
+  height: 100vh;
+}
+
+.sidenav {
+  width: 240px;
+  background: #1d011b;
+  color: white;
+  border-radius: 0 !important;
+}
+
+.sidenav .brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.sidenav mat-icon {
+  color: white; /* amber-400 */
+}
+.nav-text {
+  color: white;
+}
+
+mat-nav-list a {
+  color: white;
+}
+
+mat-nav-list a.active {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.header {
+  display: flex;
+  justify-content: flex-end;
+  background-color: darkgrey;
+}
+
+.flex-spacer {
+  flex: 1 1 auto;
+}
+
+.page-content {
+  padding: 16px;
+}

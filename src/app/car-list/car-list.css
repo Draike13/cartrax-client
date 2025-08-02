@@ -5,6 +5,7 @@
 table {
   width: 100%;
   border-collapse: collapse;
+  background-color: grey;
 }
 
 thead {
@@ -16,4 +17,16 @@ td {
   padding: 0.5rem;
   text-align: left;
   border-bottom: 1px solid #ddd;
+}
+
+.add-car-icon {
+  position: relative;
+  display: inline-block;
+}
+.add-car-icon .small-plus {
+  position: absolute;
+  right: -8px;
+  bottom: -8px;
+  font-size: 16px;
+  color: #cbd415;
 }
