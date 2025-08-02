@@ -9,7 +9,7 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Api } from '../../services/api';
-import { Car } from '../../models/car';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-add-car',
@@ -24,7 +24,11 @@ import { Car } from '../../models/car';
 })
 export class AddCar {
   form: FormGroup;
-  constructor(private fb: FormBuilder, private apiService: Api) {
+  constructor(
+    private fb: FormBuilder,
+    private apiService: Api,
+    private dialogRef: MatDialogRef<AddCar>
+  ) {
     this.form = this.fb.group({
       vin: ['', Validators.required],
       make: ['', Validators.required],
@@ -43,5 +47,11 @@ export class AddCar {
     console.log('Form Submitted', this.form.value);
     this.apiService.createCar(this.form.value).then(() => {});
     this.form.reset();
+    this.dialogRef.close();
+  }
+
+  cancel() {
+    this.form.reset();
+    this.dialogRef.close();
   }
 }

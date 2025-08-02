@@ -1,4 +1,4 @@
-import { Component, Signal } from '@angular/core';
+import { Component, signal, Signal, WritableSignal } from '@angular/core';
 import { Router } from '@angular/router';
 import { Api } from '../services/api';
 import { Car } from '../models/car';
@@ -15,6 +15,10 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class CarList {
   readonly cars: Signal<Car[]>;
+  sortColumn: WritableSignal<keyof Car> = signal('vin');
+  sortDirection: WritableSignal<'asc' | 'desc'> = signal('asc');
+
+  displayedColumns = ['vin', 'year', 'make', 'model', 'mileage', 'actions'];
 
   constructor(
     private router: Router,
@@ -23,6 +27,30 @@ export class CarList {
   ) {
     this.apiService.updateSignal.set(true);
     this.cars = this.apiService.cars;
+  }
+  sortedCars() {
+    return [...this.cars()].sort((a, b) => {
+      const col = this.sortColumn();
+      const dir = this.sortDirection() === 'asc' ? 1 : -1;
+
+      const valA = a[col] ?? '';
+      const valB = b[col] ?? '';
+
+      if (typeof valA === 'number' && typeof valB === 'number') {
+        return (valA - valB) * dir;
+      } else {
+        return String(valA).localeCompare(String(valB)) * dir;
+      }
+    });
+  }
+
+  sortBy(column: keyof Car) {
+    if (this.sortColumn() === column) {
+      this.sortDirection.set(this.sortDirection() === 'asc' ? 'desc' : 'asc');
+    } else {
+      this.sortColumn.set(column);
+      this.sortDirection.set('asc');
+    }
   }
 
   goToMainPage() {

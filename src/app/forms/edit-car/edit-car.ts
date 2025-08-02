@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Dialog } from '../../services/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-edit-car',
@@ -27,7 +28,8 @@ export class EditCar {
   constructor(
     private fb: FormBuilder,
     private apiService: Api,
-    private dialogService: Dialog
+    private dialogService: Dialog,
+    private dialogRef: MatDialogRef<EditCar>
   ) {
     this.form = this.fb.group({
       vin: [this.dialogService.selectedCar()!.vin, Validators.required],
@@ -49,5 +51,11 @@ export class EditCar {
       this.dialogService.selectedCar()!.id,
       this.form.value
     );
+    this.dialogRef.close();
+    this.dialogService.viewType.set(null);
+  }
+  cancel() {
+    this.dialogRef.close();
+    this.dialogService.viewType.set(null);
   }
 }
