@@ -3,6 +3,7 @@ import { CarList } from './car-list/car-list';
 import { MainPage } from './main-page/main-page';
 import { CarSpecs } from './car-list-links/car-specs/car-specs';
 import { ServiceRecords } from './car-list-links/service-records/service-records';
+import { PartsTable } from './parts-table/parts-table';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'main', pathMatch: 'full' },
@@ -15,4 +16,5 @@ export const routes: Routes = [
       { path: ':id/service-records', component: ServiceRecords },
     ],
   },
+  { path: 'partsTable', component: PartsTable },
 ];
