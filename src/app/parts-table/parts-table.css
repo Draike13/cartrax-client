@@ -35,3 +35,15 @@ td {
   margin-bottom: 1rem;
   max-width: 300px;
 }
+
+/* Limit Part Type column width */
+.mat-column-type {
+  width: 25rem; /* or whatever looks good */
+  max-width: 35rem;
+  white-space: nowrap; /* Prevents wrapping */
+}
+
+/* Make the dropdown fill the cell but respect the width limit */
+.mat-column-type mat-form-field {
+  width: 100%;
+}
