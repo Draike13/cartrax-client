@@ -49,8 +49,6 @@ export class PartsTable {
   selectPartType(type: string) {
     this.apiService.selectedPartType.set(type);
     this.partTypeSearch = type;
-    console.log('Selected part type:', type);
-    console.log(this.apiService.selectedPartType());
   }
 
   openAddPartDialog() {
@@ -62,13 +60,12 @@ export class PartsTable {
   editPart(part: Part) {
     this.dialogServicve.changeView('editPart');
     this.dialogServicve.open();
-    console.log('Edit part:', part);
+    this.dialogServicve.selectedPart.set(part);
   }
 
   /** Placeholder: Delete a part */
   deletePart(part: Part) {
     this.apiService.deletePart(part.type, part.id);
-    console.log('Delete part:', part);
   }
 
   /** Toggle search bar/dialog */
