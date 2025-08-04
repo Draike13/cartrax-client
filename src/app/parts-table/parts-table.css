@@ -40,10 +40,29 @@ td {
 .mat-column-type {
   width: 25rem; /* or whatever looks good */
   max-width: 35rem;
+  height: 5rem;
   white-space: nowrap; /* Prevents wrapping */
 }
 
 /* Make the dropdown fill the cell but respect the width limit */
 .mat-column-type mat-form-field {
   width: 100%;
+}
+
+/* Target only the header cell for the "type" column */
+.mat-column-type .part-type-selector {
+  padding: 0; /* remove table cell padding */
+  margin: 0; /* remove any outer margin */
+}
+
+.mat-column-type .part-type-selector mat-form-field {
+  margin: 0;
+  padding: 0;
+  width: 100%; /* make it span the cell */
+}
+
+/* Optional: make input fill perfectly */
+.mat-column-type .part-type-selector input {
+  padding: 4px 8px; /* reduce inside spacing */
+  box-sizing: border-box;
 }
