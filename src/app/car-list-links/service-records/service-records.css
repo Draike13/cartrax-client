@@ -1,26 +1,33 @@
-.records-container {
-  max-width: 900px;
-  margin: auto;
-  padding: 20px;
+.service-records-container {
+  padding: 1rem;
 }
 
-.records-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.service-table {
+table {
   width: 100%;
+  border-collapse: collapse;
+  background-color: grey;
 }
 
-th.mat-header-cell {
-  font-weight: bold;
-  background: #f4f4f4;
+thead {
+  background: #f5f5f5;
 }
 
-td.mat-cell,
-th.mat-header-cell {
-  padding: 12px;
+th,
+td {
+  padding: 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.add-service-icon {
+  position: relative;
+  display: inline-block;
+}
+
+.add-service-icon .small-plus {
+  position: absolute;
+  right: -8px;
+  bottom: -8px;
+  font-size: 16px;
+  color: #cbd415;
 }

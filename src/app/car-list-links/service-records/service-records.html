@@ -1,36 +1,59 @@
-<div class="records-container">
-  <div class="records-header">
-    <h1>Service Records</h1>
-    <button mat-raised-button color="primary">
-      <mat-icon>add</mat-icon> Add Record
-    </button>
-  </div>
+<table mat-table [dataSource]="records">
+  <!-- Service Date Column -->
+  <ng-container matColumnDef="serviceDate">
+    <th mat-header-cell *matHeaderCellDef>Service Date</th>
+    <td mat-cell *matCellDef="let record">{{ record.serviceDate }}</td>
+  </ng-container>
 
-  <table
-    mat-table
-    [dataSource]="records"
-    class="mat-elevation-z2 service-table"
-  >
-    <!-- Service Date Column -->
-    <ng-container matColumnDef="serviceDate">
-      <th mat-header-cell *matHeaderCellDef>Service Date</th>
-      <td mat-cell *matCellDef="let record">{{ record.serviceDate }}</td>
-    </ng-container>
+  <!-- Service Performed Column -->
+  <ng-container matColumnDef="servicePerformed">
+    <th mat-header-cell *matHeaderCellDef class="center-column">
+      Service Performed
+    </th>
+    <td mat-cell *matCellDef="let record" class="center-column">
+      {{ record.servicePerformed }}
+    </td>
+  </ng-container>
 
-    <!-- Service Performed Column -->
-    <ng-container matColumnDef="servicePerformed">
-      <th mat-header-cell *matHeaderCellDef>Service Performed</th>
-      <td mat-cell *matCellDef="let record">{{ record.servicePerformed }}</td>
-    </ng-container>
+  <!-- Mileage Column -->
+  <ng-container matColumnDef="mileage">
+    <th mat-header-cell *matHeaderCellDef>Mileage</th>
+    <td mat-cell *matCellDef="let record">{{ record.mileage }}</td>
+  </ng-container>
 
-    <!-- Mileage Column -->
-    <ng-container matColumnDef="mileage">
-      <th mat-header-cell *matHeaderCellDef>Mileage</th>
-      <td mat-cell *matCellDef="let record">{{ record.mileage }}</td>
-    </ng-container>
+  <!-- Actions Column -->
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>
+      <!-- Add Service -->
+      <button mat-icon-button color="primary" matTooltip="Add Service">
+        <span class="add-service-icon">
+          <mat-icon class="service-main">build</mat-icon>
+          <mat-icon class="small-plus">add_circle</mat-icon>
+        </span>
+      </button>
 
-    <!-- Table Header / Rows -->
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
-</div>
+      <!-- Search Service -->
+      <button mat-icon-button color="primary" matTooltip="Search Services">
+        <mat-icon>search</mat-icon>
+      </button>
+    </th>
+    <td mat-cell *matCellDef="let record">
+      <button mat-icon-button color="primary">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button color="warn">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <!-- Header and Row Declarations -->
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+  @if (records.length === 0) {
+  <tr>
+    <td colspan="4" class="empty">No service records found.</td>
+  </tr>
+  }
+</table>

@@ -2,15 +2,21 @@ import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-service-records',
-  imports: [MatIconModule, MatButtonModule, MatTableModule],
+  imports: [MatIconModule, MatButtonModule, MatTableModule, MatTooltipModule],
   templateUrl: './service-records.html',
   styleUrl: './service-records.css',
 })
 export class ServiceRecords {
-  displayedColumns: string[] = ['serviceDate', 'servicePerformed', 'mileage'];
+  displayedColumns: string[] = [
+    'serviceDate',
+    'servicePerformed',
+    'mileage',
+    'actions',
+  ];
 
   records = [
     {
