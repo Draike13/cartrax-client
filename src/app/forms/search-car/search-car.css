@@ -1,0 +1,71 @@
+.dialog-header {
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 3rem;
+}
+
+.search-choice {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  margin-top: 3rem; /* pushes buttons down from header */
+}
+
+.search-choice button {
+  height: 30%;
+  width: 80%;
+  font-size: 1.2rem;
+  padding: 20px 0;
+}
+
+.vin-form,
+.filter-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.vin-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 6rem;
+  gap: 2rem;
+  max-width: 100%;
+}
+
+.vin-form mat-form-field {
+  width: 80%;
+  max-width: 500px;
+  font-size: 1.5rem; /* make input text slightly larger */
+}
+
+.vin-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  width: 80%;
+  max-width: 500px;
+}
+
+.filter-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 24px;
+  gap: 12px; /* space between inputs */
+}
+
+.filter-form mat-form-field {
+  width: 80%;
+}
+
+.filter-actions {
+  display: flex;
+  justify-content: flex-end; /* right-aligned */
+  gap: 12px; /* even space between Back & Search */
+  width: 80%; /* match input width */
+  margin-top: 12px;
+}

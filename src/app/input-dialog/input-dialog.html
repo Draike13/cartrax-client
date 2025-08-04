@@ -1,10 +1,7 @@
 @if (view() === 'addCar') {
 <app-add-car />
-} @else if (view() === 'editCar') {
+} @if (view() === 'editCar') {
 <app-edit-car />
-
-} @else if (view() === 'addItem') {
-<h1>Adding an Item</h1>
-} @else if (view() === 'addCustomer') {
-<h1>Adding a Customer</h1>
+} @if (view() === 'searchCar') {
+<app-search-car />
 }

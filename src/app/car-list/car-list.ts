@@ -6,6 +6,7 @@ import { Dialog } from '../services/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
+import { CarViewType } from '../models/car-view-type';
 
 @Component({
   selector: 'app-car-list',
@@ -74,7 +75,16 @@ export class CarList {
         console.error('Error deleting car:', error);
       });
   }
-  changeView(view: 'addCar' | 'editCar' | 'addItem' | 'addCustomer') {
+  changeView(view: CarViewType) {
     this.dialogSevice.changeView(view);
+  }
+
+  searchActive() {
+    return this.dialogSevice.searchActive();
+  }
+  clearSearch() {
+    this.dialogSevice.searchActive.set(false);
+    this.dialogSevice.viewType.set(null);
+    this.apiService.updateSignal.set(true);
   }
 }

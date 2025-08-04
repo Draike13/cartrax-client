@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Dialog } from '../../services/dialog';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-edit-car',
@@ -19,6 +20,7 @@ import { MatDialogRef } from '@angular/material/dialog';
     CommonModule,
     MatFormFieldModule,
     MatInputModule,
+    MatButtonModule,
   ],
   templateUrl: './edit-car.html',
   styleUrl: './edit-car.css',

@@ -43,4 +43,21 @@ export class Api {
       () => this.updateSignal.set(true)
     );
   }
+
+  async searchByVin(vin: string) {
+    return firstValueFrom(
+      this.http.get<Car>(`${this.baseUrl}/cars/vin/${vin}`)
+    );
+  }
+
+  async searchByFilter(year?: string, make?: string, model?: string) {
+    const params: any = {};
+    if (year) params.year = year;
+    if (make) params.make = make;
+    if (model) params.model = model;
+
+    return firstValueFrom(
+      this.http.get<Car[]>(`${this.baseUrl}/cars/filter`, { params })
+    );
+  }
 }

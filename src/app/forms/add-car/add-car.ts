@@ -10,6 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Api } from '../../services/api';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-add-car',
@@ -18,6 +19,7 @@ import { MatDialogRef } from '@angular/material/dialog';
     CommonModule,
     MatFormFieldModule,
     MatInputModule,
+    MatButtonModule,
   ],
   templateUrl: './add-car.html',
   styleUrl: './add-car.css',

@@ -1,0 +1,77 @@
+<h1 class="dialog-header">Search Cars</h1>
+
+<!-- Step 1: Two main buttons -->
+@if (searchMode() === 'choose') {
+<div class="search-choice">
+  <button mat-raised-button color="primary" (click)="setSearchMode('vin')">
+    Search by VIN
+  </button>
+  <button mat-raised-button color="accent" (click)="setSearchMode('filter')">
+    Filter Vehicles
+  </button>
+</div>
+}
+
+<!-- Step 2: VIN Search -->
+@if (searchMode() === 'vin') {
+<form [formGroup]="vinForm" (ngSubmit)="searchByVin()" class="vin-form">
+  <mat-form-field appearance="outline" style="width: 100%">
+    <mat-label>VIN</mat-label>
+    <input matInput formControlName="vin" />
+    @if (vinForm.get('vin')?.touched && vinForm.get('vin')?.invalid) {
+    <mat-error>
+      You must enter Vehicle Identification Number to search
+    </mat-error>
+    }
+  </mat-form-field>
+  <div class="vin-actions">
+    <button mat-stroked-button type="button" (click)="resetSearchMode()">
+      Back
+    </button>
+    <button
+      mat-flat-button
+      color="primary"
+      type="submit"
+      (click)="submitVinSearch()"
+      [disabled]="vinForm.invalid"
+    >
+      Search
+    </button>
+  </div>
+</form>
+}
+
+<!-- Step 3: Filter Search -->
+@if (searchMode() === 'filter') {
+<form
+  [formGroup]="filterForm"
+  (ngSubmit)="searchByFilter()"
+  class="filter-form"
+>
+  <mat-form-field appearance="outline">
+    <mat-label>Year</mat-label>
+    <input matInput formControlName="year" />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Make</mat-label>
+    <input matInput formControlName="make" />
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Model</mat-label>
+    <input matInput formControlName="model" />
+  </mat-form-field>
+  <div class="filter-actions">
+    <button mat-stroked-button type="button" (click)="resetSearchMode()">
+      Back
+    </button>
+    <button
+      mat-flat-button
+      color="primary"
+      type="submit"
+      (click)="submitFilterSearch()"
+    >
+      Search
+    </button>
+  </div>
+</form>
+}
