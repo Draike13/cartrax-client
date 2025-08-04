@@ -4,6 +4,7 @@ import { InputDialog } from '../input-dialog/input-dialog';
 import { Car } from '../models/car';
 import { Api } from './api';
 import { CarViewType } from '../models/car-view-type';
+import { DeleteDialog } from '../delete-dialog/delete-dialog';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +20,14 @@ export class Dialog {
     this.dialog.open(InputDialog, {
       width: '80vw',
       maxWidth: '900px',
+      minHeight: '40vh',
+    });
+  }
+
+  delete() {
+    this.dialog.open(DeleteDialog, {
+      width: '80vw',
+      maxWidth: '600px',
       minHeight: '40vh',
     });
   }

@@ -1,0 +1,53 @@
+<div class="specs-container">
+  <div class="specs-header">
+    <h1>Vehicle Specifications</h1>
+    <button mat-raised-button color="primary" (click)="editSpecs()">
+      <mat-icon>edit</mat-icon> Edit
+    </button>
+  </div>
+
+  <table class="specs-table" mat-table>
+    <!-- Engine Section -->
+    <tr class="specs-section">
+      <td colspan="2">Engine</td>
+    </tr>
+    <tr>
+      <td>Engine Type</td>
+      <td>{{ carSpecs.engineType || "—" }}</td>
+    </tr>
+    <tr>
+      <td>Horsepower</td>
+      <td>{{ carSpecs.horsepower || "—" }}</td>
+    </tr>
+    <tr>
+      <td>Torque</td>
+      <td>{{ carSpecs.torque || "—" }}</td>
+    </tr>
+
+    <!-- Transmission Section -->
+    <tr class="specs-section">
+      <td colspan="2">Transmission</td>
+    </tr>
+    <tr>
+      <td>Transmission Type</td>
+      <td>{{ carSpecs.transmissionType || "—" }}</td>
+    </tr>
+    <tr>
+      <td>Drive Type</td>
+      <td>{{ carSpecs.driveType || "—" }}</td>
+    </tr>
+
+    <!-- Tires Section -->
+    <tr class="specs-section">
+      <td colspan="2">Tires</td>
+    </tr>
+    <tr>
+      <td>Front Tire Size</td>
+      <td>{{ carSpecs.frontTireSize || "—" }}</td>
+    </tr>
+    <tr>
+      <td>Rear Tire Size</td>
+      <td>{{ carSpecs.rearTireSize || "—" }}</td>
+    </tr>
+  </table>
+</div>

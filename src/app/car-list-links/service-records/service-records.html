@@ -1,0 +1,36 @@
+<div class="records-container">
+  <div class="records-header">
+    <h1>Service Records</h1>
+    <button mat-raised-button color="primary">
+      <mat-icon>add</mat-icon> Add Record
+    </button>
+  </div>
+
+  <table
+    mat-table
+    [dataSource]="records"
+    class="mat-elevation-z2 service-table"
+  >
+    <!-- Service Date Column -->
+    <ng-container matColumnDef="serviceDate">
+      <th mat-header-cell *matHeaderCellDef>Service Date</th>
+      <td mat-cell *matCellDef="let record">{{ record.serviceDate }}</td>
+    </ng-container>
+
+    <!-- Service Performed Column -->
+    <ng-container matColumnDef="servicePerformed">
+      <th mat-header-cell *matHeaderCellDef>Service Performed</th>
+      <td mat-cell *matCellDef="let record">{{ record.servicePerformed }}</td>
+    </ng-container>
+
+    <!-- Mileage Column -->
+    <ng-container matColumnDef="mileage">
+      <th mat-header-cell *matHeaderCellDef>Mileage</th>
+      <td mat-cell *matCellDef="let record">{{ record.mileage }}</td>
+    </ng-container>
+
+    <!-- Table Header / Rows -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>

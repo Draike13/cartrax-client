@@ -1,0 +1,33 @@
+.specs-container {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+}
+
+.specs-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.specs-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.specs-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+.specs-section {
+  background-color: #f4f4f4;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.specs-table tr:nth-child(even) {
+  background-color: #fafafa;
+}

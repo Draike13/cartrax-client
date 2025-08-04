@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { CarViewType } from '../models/car-view-type';
+import { DeleteDialog } from '../delete-dialog/delete-dialog';
 
 @Component({
   selector: 'app-car-list',
@@ -19,7 +20,15 @@ export class CarList {
   sortColumn: WritableSignal<keyof Car> = signal('vin');
   sortDirection: WritableSignal<'asc' | 'desc'> = signal('asc');
 
-  displayedColumns = ['vin', 'year', 'make', 'model', 'mileage', 'actions'];
+  displayedColumns = [
+    'records',
+    'vin',
+    'year',
+    'make',
+    'model',
+    'mileage',
+    'actions',
+  ];
 
   constructor(
     private router: Router,
@@ -66,14 +75,8 @@ export class CarList {
     this.changeView('editCar');
   }
   deleteCar(car: Car) {
-    this.apiService
-      .deleteCar(car.id)
-      .then(() => {
-        console.log('Car deleted successfully');
-      })
-      .catch((error) => {
-        console.error('Error deleting car:', error);
-      });
+    this.dialogSevice.selectedCar.set(car);
+    this.dialogSevice.delete();
   }
   changeView(view: CarViewType) {
     this.dialogSevice.changeView(view);
@@ -86,5 +89,13 @@ export class CarList {
     this.dialogSevice.searchActive.set(false);
     this.dialogSevice.viewType.set(null);
     this.apiService.updateSignal.set(true);
+  }
+
+  goToServiceRecords(carId: number) {
+    this.router.navigate(['/carList', carId, 'service-records']);
+  }
+
+  goToSpecs(carId: number) {
+    this.router.navigate(['/carList', carId, 'specs']);
   }
 }

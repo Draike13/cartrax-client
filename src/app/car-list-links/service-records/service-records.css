@@ -1,0 +1,26 @@
+.records-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
+
+.records-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.service-table {
+  width: 100%;
+}
+
+th.mat-header-cell {
+  font-weight: bold;
+  background: #f4f4f4;
+}
+
+td.mat-cell,
+th.mat-header-cell {
+  padding: 12px;
+}

@@ -1,0 +1,34 @@
+.container {
+  background-color: grey;
+}
+
+.title {
+  font-size: 2.5rem;
+  text-align: center;
+}
+.content {
+  font-size: 1.25rem;
+  text-align: center;
+}
+.vin {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 2rem 0;
+}
+.vin-input {
+  background-color: darkgrey;
+  margin-top: 2rem;
+  width: 80%;
+  height: 3rem;
+  font-size: 2.5rem;
+  padding: 0.5rem;
+}
+
+.form-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2.5rem;
+  padding: 1rem;
+}

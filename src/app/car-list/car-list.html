@@ -1,4 +1,24 @@
 <table mat-table [dataSource]="sortedCars()">
+  <!-- Route Link Column -->
+  <ng-container matColumnDef="records">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let car" class="front-actions">
+      <!-- Service Records -->
+      <button
+        mat-icon-button
+        color="primary"
+        (click)="goToServiceRecords(car.id)"
+      >
+        <mat-icon>description</mat-icon>
+      </button>
+
+      <!-- Specs -->
+      <button mat-icon-button color="accent" (click)="goToSpecs(car.id)">
+        <mat-icon>car_repair</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
   <!-- VIN Column -->
   <ng-container matColumnDef="vin">
     <th mat-header-cell *matHeaderCellDef (click)="sortBy('vin')">
