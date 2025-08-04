@@ -3,16 +3,18 @@ import { MatDialog } from '@angular/material/dialog';
 import { InputDialog } from '../input-dialog/input-dialog';
 import { Car } from '../models/car';
 import { Api } from './api';
-import { CarViewType } from '../models/car-view-type';
+import { ViewType } from '../models/view-type';
 import { DeleteDialog } from '../delete-dialog/delete-dialog';
+import { Part } from '../models/part-type';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Dialog {
   selectedCar: WritableSignal<Car | null> = signal(null);
-  viewType: WritableSignal<CarViewType | null> = signal(null);
+  viewType: WritableSignal<ViewType | null> = signal(null);
   searchActive: WritableSignal<boolean> = signal(false);
+  selectedPart: WritableSignal<Part | null> = signal(null);
 
   constructor(private dialog: MatDialog, private apiService: Api) {}
 
@@ -21,6 +23,7 @@ export class Dialog {
       width: '80vw',
       maxWidth: '900px',
       minHeight: '40vh',
+      autoFocus: false,
     });
   }
 
@@ -32,7 +35,7 @@ export class Dialog {
     });
   }
 
-  changeView(view: CarViewType) {
+  changeView(view: ViewType) {
     this.viewType.set(view);
   }
 }

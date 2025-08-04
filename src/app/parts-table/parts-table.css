@@ -1,0 +1,37 @@
+.parts-list-container {
+  padding: 1rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: grey;
+}
+
+thead {
+  background: #f5f5f5;
+}
+
+th,
+td {
+  padding: 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.add-part-icon {
+  position: relative;
+  display: inline-block;
+}
+.add-part-icon .small-plus {
+  position: absolute;
+  right: -8px;
+  bottom: -8px;
+  font-size: 16px;
+  color: #cbd415;
+}
+
+.part-type-selector {
+  margin-bottom: 1rem;
+  max-width: 300px;
+}

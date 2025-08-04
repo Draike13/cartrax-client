@@ -6,8 +6,7 @@ import { Dialog } from '../services/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
-import { CarViewType } from '../models/car-view-type';
-import { DeleteDialog } from '../delete-dialog/delete-dialog';
+import { ViewType } from '../models/view-type';
 
 @Component({
   selector: 'app-car-list',
@@ -78,7 +77,7 @@ export class CarList {
     this.dialogSevice.selectedCar.set(car);
     this.dialogSevice.delete();
   }
-  changeView(view: CarViewType) {
+  changeView(view: ViewType) {
     this.dialogSevice.changeView(view);
   }
 

@@ -1,0 +1,29 @@
+.dialog-title {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.add-part-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.part-type-field {
+  align-self: center;
+  width: 60%;
+}
+
+.part-desc-field {
+  align-self: center;
+  width: 80%;
+}
+
+.action-buttons {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}

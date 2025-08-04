@@ -1,0 +1,48 @@
+<h2 class="dialog-title">Edit Part</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()" class="add-part-form">
+  <!-- Part Type Selector -->
+  <mat-form-field appearance="outline" class="part-type-field">
+    <mat-label>Part Type</mat-label>
+    <input
+      type="text"
+      matInput
+      [matAutocomplete]="auto"
+      formControlName="type"
+      (input)="filterPartTypes()"
+      placeholder="Select or type to search"
+    />
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      (optionSelected)="setPartType($event.option.value)"
+    >
+      @for (type of filteredPartTypes; track type) {
+      <mat-option [value]="type">{{ type }}</mat-option>
+      }
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <!-- Part Description -->
+  <mat-form-field appearance="outline" class="part-desc-field">
+    <mat-label>Part Description</mat-label>
+    <textarea
+      matInput
+      formControlName="data"
+      placeholder="Enter part description, number, or details"
+      rows="4"
+    ></textarea>
+  </mat-form-field>
+
+  <!-- Action Buttons -->
+  <div class="action-buttons">
+    <button mat-button type="button" (click)="cancel()">Cancel</button>
+    <button
+      mat-flat-button
+      color="primary"
+      type="submit"
+      [disabled]="form.invalid"
+    >
+      Save
+    </button>
+  </div>
+</form>
