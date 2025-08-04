@@ -20,11 +20,9 @@
               #auto="matAutocomplete"
               (optionSelected)="selectPartType($event.option.value)"
             >
-              <mat-option>
-                @for (type of filteredPartTypes; track type) {
-                <mat-option [value]="type">{{ type }}</mat-option>
-                }
-              </mat-option>
+              @for (type of filteredPartTypes; track type) {
+              <mat-option [value]="type">{{ type }}</mat-option>
+              }
             </mat-autocomplete>
           </mat-form-field>
         </div>
