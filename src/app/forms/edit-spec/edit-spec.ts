@@ -24,7 +24,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
 export class EditSpec {
   specForm!: FormGroup;
 
-  // Config for all fields — just add more here later
   fieldsConfig = [
     {
       control: 'engine_oil_viscosity',
@@ -191,22 +190,4 @@ export class EditSpec {
 
     console.log('Saving spec sheet:', this.specForm.value);
   }
-
-  // async saveSpecSheet() {
-  //   for (const field of this.fieldsConfig) {
-  //     const value = (this.specForm.value[field.control] || '').trim();
-  //     if (!value) continue;
-
-  //     const exists = this.allParts[field.type]?.some(
-  //       (p) => p.name.toLowerCase() === value.toLowerCase()
-  //     );
-
-  //     if (!exists) {
-  //       console.log(`Adding new part "${value}" to ${field.type}`);
-  //       await this.apiService.createPart(field.type, value); // you'll create/verify this API method
-  //     }
-  //   }
-
-  //   console.log('Saving spec sheet:', this.specForm.value);
-  // }
 }
