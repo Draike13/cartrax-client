@@ -6,10 +6,11 @@ import { EditCar } from '../forms/edit-car/edit-car';
 import { SearchCar } from '../forms/search-car/search-car';
 import { AddPart } from '../forms/add-part/add-part';
 import { EditPart } from '../forms/edit-part/edit-part';
+import { EditSpec } from '../forms/edit-spec/edit-spec';
 
 @Component({
   selector: 'app-input-dialog',
-  imports: [AddCar, EditCar, SearchCar, AddPart, EditPart],
+  imports: [AddCar, EditCar, SearchCar, AddPart, EditPart, EditSpec],
   templateUrl: './input-dialog.html',
   styleUrl: './input-dialog.css',
 })

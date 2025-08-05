@@ -5,6 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { Api } from '../../services/api';
+import { Dialog } from '../../services/dialog';
 
 @Component({
   selector: 'app-car-specs',
@@ -18,7 +19,11 @@ export class CarSpecs {
   // Row 1: Car info
   carInfoColumns = ['year', 'make', 'model', 'trim', 'color', 'mileage', 'vin'];
 
-  constructor(private route: ActivatedRoute, private apiService: Api) {}
+  constructor(
+    private route: ActivatedRoute,
+    private apiService: Api,
+    private dialogService: Dialog
+  ) {}
 
   async ngOnInit() {
     const selectedCar = this.apiService.selectedCar();
@@ -26,5 +31,11 @@ export class CarSpecs {
       const specData = await this.apiService.getCarSpec(selectedCar.id);
       this.spec.set(specData);
     }
+  }
+
+  editSpec() {
+    this.apiService.selectedSpec.set(this.spec());
+    this.dialogService.changeView('editSpec');
+    this.dialogService.open();
   }
 }

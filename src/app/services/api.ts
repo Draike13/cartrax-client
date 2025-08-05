@@ -14,6 +14,7 @@ export class Api {
   updateSignal: WritableSignal<boolean> = signal(false);
   selectedPartType: WritableSignal<string | null> = signal(null);
   selectedCar: WritableSignal<Car | null> = signal(null);
+  selectedSpec: WritableSignal<Car | null> = signal(null);
 
   partsList: WritableSignal<Part[]> = signal([]);
   cars: WritableSignal<Car[]> = signal([]);

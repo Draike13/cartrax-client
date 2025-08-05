@@ -4,4 +4,5 @@ export type ViewType =
   | 'searchCar'
   | 'addPart'
   | 'editPart'
-  | 'searchPart';
+  | 'searchPart'
+  | 'editSpec';

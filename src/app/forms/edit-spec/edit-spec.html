@@ -1,0 +1,61 @@
+<div class="form-container">
+  <h2 class="form-header">Edit Spec Sheet</h2>
+  @if(specForm) {
+
+  <form [formGroup]="specForm" (ngSubmit)="saveSpecSheet()">
+    <div class="form-scroll">
+      <div class="form-columns">
+        <!-- ===== LEFT COLUMN: TABLE 1 ===== -->
+        <div class="form-column">
+          @for (field of fieldsConfig.slice(0, 11); track field.control) {
+          <mat-form-field appearance="outline">
+            <mat-label>{{ field.label }}</mat-label>
+            <input
+              type="text"
+              matInput
+              [formControlName]="field.control"
+              [matAutocomplete]="auto"
+              (focus)="loadPartsForField(field)"
+              placeholder="Type to search or add"
+            />
+            <mat-autocomplete #auto="matAutocomplete">
+              @for (option of filteredPartsMap[field.control](); track option) {
+              <mat-option [value]="option.name">{{ option.name }}</mat-option>
+              }
+            </mat-autocomplete>
+          </mat-form-field>
+          }
+        </div>
+
+        <!-- ===== RIGHT COLUMN: TABLE 2 ===== -->
+        <div class="form-column">
+          @for (field of fieldsConfig.slice(11); track field.control) {
+          <mat-form-field appearance="outline">
+            <mat-label>{{ field.label }}</mat-label>
+            <input
+              type="text"
+              matInput
+              [formControlName]="field.control"
+              [matAutocomplete]="auto"
+              (focus)="loadPartsForField(field)"
+              placeholder="Type to search or add"
+            />
+            <mat-autocomplete #auto="matAutocomplete">
+              @for (option of filteredPartsMap[field.control](); track option) {
+              <mat-option [value]="option.name">{{ option.name }}</mat-option>
+              }
+            </mat-autocomplete>
+          </mat-form-field>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== FORM ACTIONS ===== -->
+    <div class="form-actions">
+      <button mat-button type="button" (click)="cancel()">Cancel</button>
+      <button mat-raised-button color="primary" type="submit">Save</button>
+    </div>
+  </form>
+  }
+</div>
