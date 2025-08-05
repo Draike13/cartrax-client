@@ -16,45 +16,7 @@ export class CarSpecs {
   spec: WritableSignal<any> = signal({});
 
   // Row 1: Car info
-  carInfoColumns = [
-    'year',
-    'make',
-    'model',
-    'trim',
-    'color',
-    'mileage',
-    'vin',
-    'notes',
-  ];
-
-  // Row 2: First half of car_specs
-  firstSpecColumns = [
-    'engine_oil_viscosity',
-    'engine_oil_quantity',
-    'engine_oil_filter',
-    'brake_fluid_type',
-    'brake_pad',
-    'brake_rotor',
-    'tire_size',
-    'tire_brand',
-    'transmission_fluid_type',
-    'transmission_fluid_quantity',
-    'coolant_type',
-  ];
-
-  // Row 3: Second half of car_specs
-  secondSpecColumns = [
-    'engine_air_filter',
-    'cabin_air_filter',
-    'wiper_blade_size',
-    'headlight',
-    'taillight',
-    'turn_signal_light',
-    'license_plate_light',
-    'battery',
-    'serpentine_belt',
-    'thermostat',
-  ];
+  carInfoColumns = ['year', 'make', 'model', 'trim', 'color', 'mileage', 'vin'];
 
   constructor(private route: ActivatedRoute, private apiService: Api) {}
 
