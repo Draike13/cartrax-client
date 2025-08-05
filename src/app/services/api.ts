@@ -13,6 +13,7 @@ export class Api {
 
   updateSignal: WritableSignal<boolean> = signal(false);
   selectedPartType: WritableSignal<string | null> = signal(null);
+  selectedCar: WritableSignal<Car | null> = signal(null);
 
   partsList: WritableSignal<Part[]> = signal([]);
   cars: WritableSignal<Car[]> = signal([]);
@@ -129,6 +130,19 @@ export class Api {
       await this.loadParts(type);
     } catch (error) {
       console.error('Error deleting part:', error);
+    }
+  }
+
+  async getCarSpec(carId: number) {
+    try {
+      const carSpec = await firstValueFrom(
+        this.http.get<Car>(`${this.baseUrl}/cars/${carId}?with=specs`)
+      );
+      console.log('Car specs fetched:', carSpec);
+      return carSpec;
+    } catch (error) {
+      console.error('Error fetching car specs:', error);
+      throw error;
     }
   }
 }

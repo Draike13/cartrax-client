@@ -7,13 +7,17 @@
       <button
         mat-icon-button
         color="primary"
-        (click)="goToServiceRecords(car.id)"
+        (click)="goToServiceRecords(car.id); setSelectedCar(car)"
       >
         <mat-icon>description</mat-icon>
       </button>
 
       <!-- Specs -->
-      <button mat-icon-button color="accent" (click)="goToSpecs(car.id)">
+      <button
+        mat-icon-button
+        color="accent"
+        (click)="goToSpecs(car.id); setSelectedCar(car)"
+      >
         <mat-icon>car_repair</mat-icon>
       </button>
     </td>

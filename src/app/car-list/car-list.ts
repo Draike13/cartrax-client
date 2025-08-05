@@ -97,4 +97,7 @@ export class CarList {
   goToSpecs(carId: number) {
     this.router.navigate(['/carList', carId, 'specs']);
   }
+  setSelectedCar(car: Car) {
+    this.apiService.selectedCar.set(car);
+  }
 }

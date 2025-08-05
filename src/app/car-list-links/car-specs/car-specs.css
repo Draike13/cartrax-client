@@ -1,33 +1,57 @@
-.specs-container {
-  max-width: 800px;
-  margin: auto;
-  padding: 20px;
+:host {
+  display: block;
+  margin: 2rem auto; /* Push down & center a bit */
+  max-width: 1200px; /* Keep content from stretching too far */
 }
 
-.specs-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.specs-table {
+.car-info-table {
   width: 100%;
+  margin-bottom: 2rem;
   border-collapse: collapse;
-  font-size: 14px;
+  font-size: 1rem;
+
+  th {
+    background: #ccc; /* Medium grey header */
+    padding: 10px 14px;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  td {
+    background: #f5f5f5; /* Light grey data cells */
+    padding: 10px 14px;
+    border-bottom: 1px solid #ddd;
+  }
 }
 
-.specs-table td {
-  border: 1px solid #ddd;
-  padding: 10px;
-}
+.specs-container {
+  display: flex;
+  justify-content: center;
+  gap: 6rem; /* Bigger space between tables for button */
 
-.specs-section {
-  background-color: #f4f4f4;
-  font-weight: bold;
-  text-transform: uppercase;
-}
+  .spec-table {
+    min-width: 380px; /* Slightly wider */
+    border-collapse: collapse;
+    font-size: 1rem;
+    background: #ccc; /* Medium grey background for whole table */
+    border: 1px solid #aaa;
 
-.specs-table tr:nth-child(even) {
-  background-color: #fafafa;
+    th {
+      background: #bbb; /* Slightly darker grey header cells */
+      padding: 10px 14px;
+      white-space: nowrap;
+      width: 50%;
+    }
+
+    td {
+      background: #e9e9e9; /* Light grey for data cells */
+      padding: 10px 14px;
+      width: 50%;
+      border-bottom: 1px solid #ccc;
+    }
+
+    tr:nth-child(even) td {
+      background: #f0f0f0; /* Slight alternate row color */
+    }
+  }
 }
