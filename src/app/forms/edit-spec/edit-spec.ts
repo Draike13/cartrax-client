@@ -207,18 +207,18 @@ export class EditSpec {
     for (const field of this.fieldsConfig) {
       const control = this.specForm.get(field.control);
 
-      // 1️⃣ Skip untouched fields → prevents overwriting unchanged data
+      // 1️ Skip untouched fields → prevents overwriting unchanged data
       if (!control?.touched) continue;
 
       const value = (control.value || '').trim();
 
-      // 2️⃣ If blank, clear the field in DB
+      // 2️If blank, clear the field in DB
       if (!value) {
         updatedValues[`${field.control}_id`] = null;
         continue;
       }
 
-      // 3️⃣ Make sure parts list is loaded for this field type
+      // 3️ Make sure parts list is loaded for this field type
       if (
         !this.allPartsMap[field.control] ||
         this.allPartsMap[field.control].length === 0
@@ -226,7 +226,7 @@ export class EditSpec {
         await this.loadPartsForField(field); // uses your existing loader
       }
 
-      // 4️⃣ Compare typed value to existing parts list
+      // 4️ Compare typed value to existing parts list
       const match = this.allPartsMap[field.control]?.find(
         (p) => p.name.trim().toLowerCase() === value.toLowerCase()
       );
@@ -236,7 +236,7 @@ export class EditSpec {
         continue;
       }
 
-      // 5️⃣ If no match → create a new part
+      // 5️ If no match → create a new part
       try {
         const newPart = await this.apiService.createPart(field.type, value);
         updatedValues[`${field.control}_id`] = newPart.id;
@@ -246,7 +246,7 @@ export class EditSpec {
       }
     }
 
-    // 6️⃣ Save only if something changed
+    // 6️ Save only if something changed
     if (Object.keys(updatedValues).length === 0) {
       console.log('No changes to save.');
       return;
@@ -258,6 +258,7 @@ export class EditSpec {
         updatedValues
       );
       this.apiService.updateSpecs.set(true);
+      this.dialogRef.close();
       console.log('Spec sheet saved successfully!');
     } catch (err) {
       console.error('Error saving spec sheet', err);

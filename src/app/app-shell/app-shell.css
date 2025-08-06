@@ -35,6 +35,12 @@ mat-nav-list a.active {
 }
 
 .header {
+  position: fixed;
+  top: 0;
+  left: 240px; /* sidenav width */
+  right: 0;
+  height: 64px; /* default mat-toolbar height */
+  z-index: 1000;
   display: flex;
   justify-content: flex-end;
   background-color: darkgrey;
@@ -45,5 +51,5 @@ mat-nav-list a.active {
 }
 
 .page-content {
-  padding: 16px;
+  padding: 54px 16px 16px;
 }

@@ -49,4 +49,9 @@ export class CarSpecs {
     this.dialogService.changeView('editSpec');
     this.dialogService.open();
   }
+  clearSpec() {
+    this.apiService.selectedSpec.set(this.spec());
+    this.dialogService.open();
+    this.dialogService.changeView('clearSpec');
+  }
 }

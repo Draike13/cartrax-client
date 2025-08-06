@@ -5,4 +5,5 @@ export type ViewType =
   | 'addPart'
   | 'editPart'
   | 'searchPart'
-  | 'editSpec';
+  | 'editSpec'
+  | 'clearSpec';

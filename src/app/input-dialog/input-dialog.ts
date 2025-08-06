@@ -7,10 +7,11 @@ import { SearchCar } from '../forms/search-car/search-car';
 import { AddPart } from '../forms/add-part/add-part';
 import { EditPart } from '../forms/edit-part/edit-part';
 import { EditSpec } from '../forms/edit-spec/edit-spec';
+import { ClearSpec } from '../forms/clear-spec/clear-spec';
 
 @Component({
   selector: 'app-input-dialog',
-  imports: [AddCar, EditCar, SearchCar, AddPart, EditPart, EditSpec],
+  imports: [AddCar, EditCar, SearchCar, AddPart, EditPart, EditSpec, ClearSpec],
   templateUrl: './input-dialog.html',
   styleUrl: './input-dialog.css',
 })

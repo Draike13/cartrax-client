@@ -1,0 +1,10 @@
+<h2 class="header" mat-dialog-title>Clearing Spec</h2>
+
+<mat-dialog-content class="content">
+  <p>Are you sure you want to clear all information on this spec sheet?</p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-stroked-button color="primary" mat-dialog-close>Cancel</button>
+  <button mat-raised-button color="warn" (click)="clearSpec()">Clear</button>
+</mat-dialog-actions>
