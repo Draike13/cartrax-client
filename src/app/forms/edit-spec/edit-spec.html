@@ -19,8 +19,11 @@
               placeholder="Type to search or add"
             />
             <mat-autocomplete #auto="matAutocomplete">
-              @for (option of filteredPartsMap[field.control](); track option) {
-              <mat-option [value]="option.name">{{ option.name }}</mat-option>
+              @for (option of filteredPartsMap[field.control](); track
+              option.id) {
+              <mat-option [value]="option.name">
+                {{ option.name }}
+              </mat-option>
               }
             </mat-autocomplete>
           </mat-form-field>

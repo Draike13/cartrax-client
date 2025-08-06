@@ -7,6 +7,8 @@ import { Api } from '../../services/api';
 import { MatOptionModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { Dialog } from '../../services/dialog';
+import { DialogRef } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-edit-spec',
@@ -106,22 +108,45 @@ export class EditSpec {
   // Stores filtered lists for autocomplete
   filteredParts: { [key: string]: { id: number; name: string }[] } = {};
 
-  constructor(private fb: FormBuilder, private apiService: Api) {
+  constructor(
+    private fb: FormBuilder,
+    private apiService: Api,
+    private dialogRef: DialogRef
+  ) {
+    /** 1️⃣ Create form group + init maps */
     const group: any = {};
     this.fieldsConfig.forEach((field) => {
-      group[field.control] = [''];
-      this.allPartsMap[field.control] = [];
+      group[field.control] = ['']; // Empty initial form control
+      this.allPartsMap[field.control] = []; // Cached list for this field
       this.filteredPartsMap[field.control] = signal<
         { id: number; name: string }[]
       >([]);
     });
     this.specForm = this.fb.group(group);
 
-    /** Set up search signals + filter effects immediately */
+    /** 2️⃣ Patch with current spec values if available */
+    const currentSpec = this.apiService.selectedSpec();
+    if (currentSpec?.car_spec) {
+      const formValues: any = {};
+      this.fieldsConfig.forEach((field) => {
+        formValues[field.control] =
+          currentSpec.car_spec[field.control]?.data || '';
+      });
+      this.specForm.patchValue(formValues);
+    }
+
+    /** 3️⃣ Preload all parts lists for matching in saveSpecSheet */
+    this.fieldsConfig.forEach(async (field) => {
+      await this.loadPartsForField(field);
+    });
+
+    /** 4️⃣ Set up autocomplete filtering */
     this.fieldsConfig.forEach((field) => {
       const searchSig = toSignal(
         this.specForm.get(field.control)!.valueChanges,
-        { initialValue: '' }
+        {
+          initialValue: '',
+        }
       );
 
       effect(() => {
@@ -153,7 +178,7 @@ export class EditSpec {
   }
 
   cancel() {
-    // Close dialog logic here
+    this.dialogRef.close();
   }
 
   async filterParts(field: any, search: string) {
@@ -175,19 +200,67 @@ export class EditSpec {
   }
 
   async saveSpecSheet() {
-    for (const field of this.fieldsConfig) {
-      const value = (this.specForm.value[field.control] || '').trim();
-      if (!value) continue;
+    if (!this.specForm.valid) return;
 
-      const exists = this.allPartsMap[field.control]?.some(
-        (p) => p.name.toLowerCase() === value.toLowerCase()
+    const updatedValues: any = {};
+
+    for (const field of this.fieldsConfig) {
+      const control = this.specForm.get(field.control);
+
+      // 1️⃣ Skip untouched fields → prevents overwriting unchanged data
+      if (!control?.touched) continue;
+
+      const value = (control.value || '').trim();
+
+      // 2️⃣ If blank, clear the field in DB
+      if (!value) {
+        updatedValues[`${field.control}_id`] = null;
+        continue;
+      }
+
+      // 3️⃣ Make sure parts list is loaded for this field type
+      if (
+        !this.allPartsMap[field.control] ||
+        this.allPartsMap[field.control].length === 0
+      ) {
+        await this.loadPartsForField(field); // uses your existing loader
+      }
+
+      // 4️⃣ Compare typed value to existing parts list
+      const match = this.allPartsMap[field.control]?.find(
+        (p) => p.name.trim().toLowerCase() === value.toLowerCase()
       );
 
-      if (!exists) {
-        await this.apiService.createPart(field.type, value);
+      if (match) {
+        updatedValues[`${field.control}_id`] = match.id;
+        continue;
+      }
+
+      // 5️⃣ If no match → create a new part
+      try {
+        const newPart = await this.apiService.createPart(field.type, value);
+        updatedValues[`${field.control}_id`] = newPart.id;
+      } catch (err) {
+        console.error(`Error creating part for ${field.control}`, err);
+        return; // Stop save if creation fails
       }
     }
 
-    console.log('Saving spec sheet:', this.specForm.value);
+    // 6️⃣ Save only if something changed
+    if (Object.keys(updatedValues).length === 0) {
+      console.log('No changes to save.');
+      return;
+    }
+
+    try {
+      await this.apiService.updateCarSpec(
+        this.apiService.selectedCarId()!,
+        updatedValues
+      );
+      this.apiService.updateSpecs.set(true);
+      console.log('Spec sheet saved successfully!');
+    } catch (err) {
+      console.error('Error saving spec sheet', err);
+    }
   }
 }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal, WritableSignal } from '@angular/core';
+import { Component, effect, signal, WritableSignal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
@@ -23,9 +23,20 @@ export class CarSpecs {
     private route: ActivatedRoute,
     private apiService: Api,
     private dialogService: Dialog
-  ) {}
+  ) {
+    // Load initially
+    this.loadSpec();
 
-  async ngOnInit() {
+    // Reactively reload when apiService.updateSpecs changes to true
+    effect(() => {
+      if (this.apiService.updateSpecs()) {
+        this.apiService.updateSpecs.set(false);
+        this.loadSpec();
+      }
+    });
+  }
+
+  async loadSpec() {
     const selectedCar = this.apiService.selectedCar();
     if (selectedCar) {
       const specData = await this.apiService.getCarSpec(selectedCar.id);

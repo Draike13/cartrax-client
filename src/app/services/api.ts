@@ -12,9 +12,11 @@ export class Api {
   private baseUrl = 'https:cartrax-api.onrender.com/api';
 
   updateSignal: WritableSignal<boolean> = signal(false);
+  updateSpecs: WritableSignal<boolean> = signal(false);
   selectedPartType: WritableSignal<string | null> = signal(null);
   selectedCar: WritableSignal<Car | null> = signal(null);
-  selectedSpec: WritableSignal<Car | null> = signal(null);
+  selectedSpec: WritableSignal<any> = signal({});
+  selectedCarId: WritableSignal<number | null> = signal(null);
 
   partsList: WritableSignal<Part[]> = signal([]);
   cars: WritableSignal<Car[]> = signal([]);
@@ -139,11 +141,29 @@ export class Api {
       const carSpec = await firstValueFrom(
         this.http.get<Car>(`${this.baseUrl}/cars/${carId}?with=specs`)
       );
-      console.log('Car specs fetched:', carSpec);
+      console.log('Fetched car specs:', carSpec);
+      this.selectedSpec.set(carSpec);
       return carSpec;
     } catch (error) {
       console.error('Error fetching car specs:', error);
       throw error;
+    }
+  }
+
+  async updateCarSpec(carId: number, specData: any) {
+    try {
+      console.log('Updating car spec with data:', specData);
+      const updatedSpec = await firstValueFrom(
+        this.http.put(`${this.baseUrl}/cars/${carId}/update_specs`, {
+          car_spec: specData,
+        })
+      );
+      console.log('Car spec updated:', updatedSpec);
+    } catch (error: any) {
+      console.error('Error updating car spec:', error);
+      if (error.error?.errors) {
+        throw error;
+      }
     }
   }
 }

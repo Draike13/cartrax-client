@@ -42,51 +42,52 @@
 <!-- ===== SPECS + NOTES ===== -->
 <div class="specs-container">
   <!-- LEFT SPEC TABLE -->
+  @if(spec()) {
   <table class="spec-table">
     <tbody>
       <tr>
         <th>Engine Oil Viscosity</th>
-        <td>{{ spec()?.engine_oil_viscosity_name || "" }}</td>
+        <td>{{ spec()?.car_spec?.engine_oil_viscosity?.data || "" }}</td>
       </tr>
       <tr>
         <th>Engine Oil Quantity</th>
-        <td>{{ spec()?.engine_oil_quantity_name || "" }}</td>
+        <td>{{ spec()?.car_spec?.engine_oil_quantity?.data || "" }}</td>
       </tr>
       <tr>
         <th>Engine Oil Filter</th>
-        <td>{{ spec()?.engine_oil_filter_name || "" }}</td>
+        <td>{{ spec()?.car_spec?.engine_oil_filter?.data || "" }}</td>
       </tr>
       <tr>
         <th>Brake Fluid Type</th>
-        <td>{{ spec()?.brake_fluid_type_name || "" }}</td>
+        <td>{{ spec()?.car_spec?.brake_fluid_type?.data || "" }}</td>
       </tr>
       <tr>
         <th>Brake Pad</th>
-        <td>{{ spec()?.brake_pad_name || "" }}</td>
+        <td>{{ spec()?.car_spec?.brake_pad?.data || "" }}</td>
       </tr>
       <tr>
         <th>Brake Rotor</th>
-        <td>{{ spec()?.brake_rotor_name || "" }}</td>
+        <td>{{ spec()?.car_spec?.brake_rotor?.data || "" }}</td>
       </tr>
       <tr>
         <th>Tire Size</th>
-        <td>{{ spec()?.tire_size_name || "" }}</td>
+        <td>{{ spec()?.car_spec?.tire_size?.data || "" }}</td>
       </tr>
       <tr>
-        <th>Tire Brand</th>
-        <td>{{ spec()?.tire_brand_name || "" }}</td>
+        <th>Tire Type</th>
+        <td>{{ spec()?.car_spec?.tire_brand?.data || "" }}</td>
       </tr>
       <tr>
         <th>Transmission Fluid Type</th>
-        <td>{{ spec()?.transmission_fluid_type_name || "" }}</td>
+        <td>{{ spec()?.car_spec?.transmission_fluid_type?.data || "" }}</td>
       </tr>
       <tr>
         <th>Transmission Fluid Quantity</th>
-        <td>{{ spec()?.transmission_fluid_quantity_name || "" }}</td>
+        <td>{{ spec()?.car_spec?.transmission_fluid_quantity?.data || "" }}</td>
       </tr>
       <tr>
         <th>Coolant Type</th>
-        <td>{{ spec()?.coolant_type_name || "" }}</td>
+        <td>{{ spec()?.car_spec?.coolant_type?.data || "" }}</td>
       </tr>
     </tbody>
   </table>
@@ -96,43 +97,43 @@
     <tbody>
       <tr>
         <th>Engine Air Filter</th>
-        <td>{{ spec()?.engine_air_filter_name || "" }}</td>
+        <td>{{ spec()?.car_spec?.engine_air_filter?.data || "" }}</td>
       </tr>
       <tr>
         <th>Cabin Air Filter</th>
-        <td>{{ spec()?.cabin_air_filter_name || "" }}</td>
+        <td>{{ spec()?.car_spec?.cabin_air_filter?.data || "" }}</td>
       </tr>
       <tr>
         <th>Wiper Blade Size</th>
-        <td>{{ spec()?.wiper_blade_size_name || "" }}</td>
+        <td>{{ spec()?.car_spec?.wiper_blade_size?.data || "" }}</td>
       </tr>
       <tr>
         <th>Headlight</th>
-        <td>{{ spec()?.headlight_name || "" }}</td>
+        <td>{{ spec()?.car_spec?.headlight?.data || "" }}</td>
       </tr>
       <tr>
         <th>Taillight</th>
-        <td>{{ spec()?.taillight_name || "" }}</td>
+        <td>{{ spec()?.car_spec?.taillight?.data || "" }}</td>
       </tr>
       <tr>
         <th>Turn Signal Light</th>
-        <td>{{ spec()?.turn_signal_light_name || "" }}</td>
+        <td>{{ spec()?.car_spec?.turn_signal_light?.data || "" }}</td>
       </tr>
       <tr>
         <th>License Plate Light</th>
-        <td>{{ spec()?.license_plate_light_name || "" }}</td>
+        <td>{{ spec()?.car_spec?.license_plate_light?.data || "" }}</td>
       </tr>
       <tr>
         <th>Battery</th>
-        <td>{{ spec()?.battery_name || "" }}</td>
+        <td>{{ spec()?.car_spec?.battery?.data || "" }}</td>
       </tr>
       <tr>
         <th>Serpentine Belt</th>
-        <td>{{ spec()?.serpentine_belt_name || "" }}</td>
+        <td>{{ spec()?.car_spec?.serpentine_belt?.data || "" }}</td>
       </tr>
       <tr>
         <th>Thermostat</th>
-        <td>{{ spec()?.thermostat_name || "" }}</td>
+        <td>{{ spec()?.car_spec?.thermostat?.data || "" }}</td>
       </tr>
     </tbody>
   </table>
@@ -160,4 +161,5 @@
     </button>
     <button class="spec-btn clear-btn">Clear Spec Sheet</button>
   </div>
+  }
 </div>
