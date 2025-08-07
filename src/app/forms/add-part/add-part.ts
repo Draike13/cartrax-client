@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   ReactiveFormsModule,
@@ -36,6 +36,7 @@ export class AddPart {
   partTypes = PART_TYPES;
   filteredPartTypes: string[] = [...PART_TYPES];
 
+  duplicateExists = signal(false);
   constructor(
     private fb: FormBuilder,
     private apiService: Api,
@@ -45,6 +46,16 @@ export class AddPart {
     this.form = this.fb.group({
       type: ['', Validators.required],
       data: ['', Validators.required],
+    });
+
+    this.form.get('data')?.valueChanges.subscribe((value) => {
+      const currentType = this.apiService.selectedPartType();
+      const existing = this.apiService
+        .partsList()
+        .filter((p) => p.type === currentType)
+        .some((p) => p.data.toLowerCase() === value.trim().toLowerCase());
+
+      this.duplicateExists.set(existing);
     });
   }
 
@@ -73,19 +84,34 @@ export class AddPart {
   submit() {
     if (this.form.invalid) return;
 
-    console.log('Saving new part:', this.form.value);
     const type = this.form.value.type;
-    const data = this.form.value.data;
+    const data = this.form.value.data.trim();
+
+    const partType = this.apiService.selectedPartType();
+    const existingParts = this.apiService
+      .partsList()
+      .filter((p) => p.type === partType);
+
+    const duplicate = existingParts.find(
+      (p) => p.data.toLowerCase() === data.toLowerCase()
+    );
+
+    if (duplicate) {
+      console.warn(`Part "${data}" already exists in ${type}`);
+      // Optionally show feedback to the user here
+      return;
+    }
+
+    console.log('Saving new part:', { type, data });
 
     this.apiService
       .createPart(type, data)
       .then(() => {
-        this.dialogRef.close(true); // close and tell parent to refresh
+        this.dialogRef.close(true);
       })
       .catch((err) => {
         console.error('Save failed', err);
       });
-    this.dialogRef.close(true);
   }
 
   /** Cancel button clicked */

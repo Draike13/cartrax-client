@@ -1,4 +1,10 @@
-import { Component, signal, Signal, WritableSignal } from '@angular/core';
+import {
+  Component,
+  computed,
+  signal,
+  Signal,
+  WritableSignal,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { Api } from '../services/api';
 import { Car } from '../models/car';
@@ -34,7 +40,9 @@ export class CarList {
     private apiService: Api,
     private dialogSevice: Dialog
   ) {
-    this.apiService.updateSignal.set(true);
+    if (!this.apiService.lockedCarsList()) {
+      this.apiService.updateSignal.set(true);
+    }
     this.cars = this.apiService.cars;
   }
   sortedCars() {
@@ -100,5 +108,10 @@ export class CarList {
   setSelectedCar(car: Car) {
     this.apiService.selectedCar.set(car);
     this.apiService.selectedCarId.set(car.id);
+  }
+
+  unlockCarList() {
+    this.apiService.lockedCarsList.set(false);
+    this.apiService.updateSignal.set(true);
   }
 }

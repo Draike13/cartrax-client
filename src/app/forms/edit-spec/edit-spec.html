@@ -7,7 +7,7 @@
       <div class="form-columns">
         <!-- ===== LEFT COLUMN: TABLE 1 ===== -->
         <div class="form-column">
-          @for (field of fieldsConfig.slice(0, 11); track field.control) {
+          @for (field of fieldsConfig.slice(0, 7); track field.control) {
           <mat-form-field appearance="outline">
             <mat-label>{{ field.label }}</mat-label>
             <input
@@ -32,7 +32,29 @@
 
         <!-- ===== RIGHT COLUMN: TABLE 2 ===== -->
         <div class="form-column">
-          @for (field of fieldsConfig.slice(11); track field.control) {
+          @for (field of fieldsConfig.slice(7, 14); track field.control) {
+          <mat-form-field appearance="outline">
+            <mat-label>{{ field.label }}</mat-label>
+            <input
+              type="text"
+              matInput
+              [formControlName]="field.control"
+              [matAutocomplete]="auto"
+              (focus)="loadPartsForField(field)"
+              placeholder="Type to search or add"
+            />
+            <mat-autocomplete #auto="matAutocomplete">
+              @for (option of filteredPartsMap[field.control](); track option) {
+              <mat-option [value]="option.name">{{ option.name }}</mat-option>
+              }
+            </mat-autocomplete>
+          </mat-form-field>
+          }
+        </div>
+
+        <!-- ===== ADDITIONAL FIELDS ===== -->
+        <div class="form-column">
+          @for (field of fieldsConfig.slice(14); track field.control) {
           <mat-form-field appearance="outline">
             <mat-label>{{ field.label }}</mat-label>
             <input

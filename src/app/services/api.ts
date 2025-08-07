@@ -11,12 +11,15 @@ import { Part } from '../models/part-type';
 export class Api {
   private baseUrl = 'https:cartrax-api.onrender.com/api';
 
+  readonly lockedCarsList: WritableSignal<boolean> = signal(false);
+
   updateSignal: WritableSignal<boolean> = signal(false);
   updateSpecs: WritableSignal<boolean> = signal(false);
   selectedPartType: WritableSignal<string | null> = signal(null);
   selectedCar: WritableSignal<Car | null> = signal(null);
   selectedSpec: WritableSignal<any> = signal({});
   selectedCarId: WritableSignal<number | null> = signal(null);
+  selectedPart: WritableSignal<Part | null> = signal(null);
 
   partsList: WritableSignal<Part[]> = signal([]);
   cars: WritableSignal<Car[]> = signal([]);
@@ -37,11 +40,17 @@ export class Api {
       if (this.updateSignal()) {
         this.updateSignal.set(false);
         const cars = await firstValueFrom(
-          this.http.get<Car[]>(`${this.baseUrl}/cars`)
+          this.http.get<Car[]>(`${this.baseUrl}/cars?with=specs`)
         );
         this.cars.set(cars);
       }
     });
+  }
+
+  async getAllCarsWithSpecs() {
+    return firstValueFrom(
+      this.http.get<Car[]>(`${this.baseUrl}/cars?with=specs`)
+    );
   }
 
   async createCar(newCar: Car) {

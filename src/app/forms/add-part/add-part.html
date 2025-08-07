@@ -32,6 +32,13 @@
       rows="4"
     ></textarea>
   </mat-form-field>
+  @if(duplicateExists()) {
+  <mat-hint class="error">
+    This part already exists. Cannot enter duplicate part.
+  </mat-hint>
+  } @else {
+  <mat-hint></mat-hint>
+  }
 
   <!-- Action Buttons -->
   <div class="action-buttons">
@@ -41,6 +48,7 @@
       color="primary"
       type="submit"
       [disabled]="form.invalid"
+      [disabled]="duplicateExists()"
     >
       Save
     </button>

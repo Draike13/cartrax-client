@@ -50,7 +50,7 @@ export class EditSpec {
     { control: 'brake_pad', label: 'Brake Pad', type: 'brake pad' },
     { control: 'brake_rotor', label: 'Brake Rotor', type: 'brake rotor' },
     { control: 'tire_size', label: 'Tire Size', type: 'tire size' },
-    { control: 'tire_brand', label: 'Tire Type', type: 'tire brand' },
+    { control: 'tire_type', label: 'Tire Type', type: 'tire type' },
     {
       control: 'transmission_fluid_type',
       label: 'Transmission Fluid Type',

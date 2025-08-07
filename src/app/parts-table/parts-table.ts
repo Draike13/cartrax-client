@@ -1,4 +1,4 @@
-import { Component, signal, WritableSignal } from '@angular/core';
+import { Component, computed, signal, WritableSignal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,6 +10,7 @@ import { Part } from '../models/part-type';
 import { Dialog } from '../services/dialog';
 import { PART_TYPES } from '../data/part-types';
 import { TitleCaseFirstPipe } from '../title-case.pipe';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-parts-table',
@@ -34,10 +35,34 @@ export class PartsTable {
   partTypes = PART_TYPES;
   filteredPartTypes: string[] = [...PART_TYPES];
 
+  filteredCars = computed(() => {
+    const allCars = this.apiService.cars();
+    const filter = this.apiService.selectedPart();
+
+    if (!filter) return allCars;
+
+    return allCars.filter((car) => {
+      const spec = car.car_spec as Record<string, number | null> | undefined;
+      if (!spec) return false;
+
+      // Check if any key in car_spec ends with _id and the value matches filter.id
+      return Object.entries(spec).some(
+        ([key, value]) =>
+          key.endsWith('_id') &&
+          typeof value === 'number' &&
+          value === filter.id
+      );
+    });
+  });
+
   partsList() {
     return this.apiService.partsList();
   }
-  constructor(private apiService: Api, private dialogServicve: Dialog) {}
+  constructor(
+    private apiService: Api,
+    private dialogService: Dialog,
+    private router: Router
+  ) {}
 
   filterPartTypes() {
     const search = this.partTypeSearch.toLowerCase();
@@ -52,15 +77,15 @@ export class PartsTable {
   }
 
   openAddPartDialog() {
-    this.dialogServicve.changeView('addPart');
-    this.dialogServicve.open();
+    this.dialogService.changeView('addPart');
+    this.dialogService.open();
   }
 
   /** Placeholder: Edit a part */
   editPart(part: Part) {
-    this.dialogServicve.changeView('editPart');
-    this.dialogServicve.open();
-    this.dialogServicve.selectedPart.set(part);
+    this.dialogService.changeView('editPart');
+    this.dialogService.open();
+    this.dialogService.selectedPart.set(part);
   }
 
   /** Placeholder: Delete a part */
@@ -71,5 +96,40 @@ export class PartsTable {
   /** Toggle search bar/dialog */
   toggleSearch() {
     this.searchActive.set(!this.searchActive());
+  }
+
+  viewCarsWithPart(part: Part) {
+    this.apiService.selectedPart.set({
+      type: part.type,
+      data: part.data,
+      id: part.id,
+    });
+    console.log('Viewing cars with part:', part);
+    console.log('Selected part:', this.apiService.selectedPart());
+    console.log('Filtered cars:', this.filteredCars());
+    console.log('All cars:', this.apiService.cars());
+    console.log(
+      'car specs:',
+      this.apiService.cars().map((c) => c.car_spec)
+    );
+    this.router.navigate(['/carList']);
+  }
+
+  async filterCarsByPart(part: Part) {
+    const allCars = await this.apiService.getAllCarsWithSpecs(); // This should include car_spec
+    const normalizedType = part.type.toLowerCase().replace(/\s+/g, '_'); // handle spacing and casing
+    const key = `${normalizedType}_id`;
+
+    const filtered = allCars.filter((car: any) => {
+      const spec = car.car_spec;
+      if (!spec) return false;
+
+      return spec[key] === part.id;
+    });
+
+    this.apiService.lockedCarsList.set(true);
+    this.apiService.cars.set(filtered);
+    this.dialogService.searchActive.set(true);
+    this.router.navigate(['/carList']);
   }
 }

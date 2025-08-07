@@ -8,5 +8,5 @@ export interface Car {
   color: string;
   mileage: number;
   notes?: string;
-  car_spec?: { id: number; data: any };
+  car_spec?: any;
 }

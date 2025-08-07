@@ -26,7 +26,7 @@ export const PART_TYPES: string[] = [
   'timing chain',
   'timing sprocket',
   'timing tensioner',
-  'tire brand',
+  'tire type',
   'tire size',
   'transmission fluid quantity',
   'transmission fluid type',

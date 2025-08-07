@@ -79,7 +79,7 @@
 
   /* Empty cells minimal height placeholder */
   .spec-table td:empty {
-    min-width: 60px;
+    min-width: 8rem;
     height: 1.5em; /* keeps a consistent thin height */
     display: inline-block;
     content: "\00a0";
@@ -87,7 +87,7 @@
 
   /* Empty cells keep size */
   td:empty {
-    min-width: 60px;
+    min-width: 8rem;
     display: inline-block;
     content: "\00a0";
   }

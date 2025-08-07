@@ -81,9 +81,8 @@
         </button>
         <button
           mat-icon-button
-          class="disabled-icon"
-          [disabled]="true"
           matTooltip="View cars with this part (coming soon)"
+          (click)="filterCarsByPart(part)"
         >
           <mat-icon>directions_car</mat-icon>
         </button>
