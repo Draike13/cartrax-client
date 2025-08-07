@@ -37,13 +37,17 @@ mat-nav-list a.active {
 .header {
   position: fixed;
   top: 0;
-  left: 240px; /* sidenav width */
-  right: 0;
-  height: 64px; /* default mat-toolbar height */
+  left: 240px; /* match sidenav width */
+  width: calc(100% - 240px); /* ensures exact width */
+  height: 64px;
   z-index: 1000;
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: flex-start;
   background-color: darkgrey;
+  overflow-x: hidden; /* prevent child overflow */
+  box-sizing: border-box;
+  padding: 0 16px; /* optional spacing */
 }
 
 .flex-spacer {

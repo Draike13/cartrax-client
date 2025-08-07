@@ -1,0 +1,25 @@
+<h2>Login</h2>
+
+<form (ngSubmit)="submit()">
+  <input
+    type="email"
+    [(ngModel)]="email"
+    name="email"
+    placeholder="Email"
+    required
+  />
+  <input
+    type="password"
+    [(ngModel)]="password"
+    name="password"
+    placeholder="Password"
+    required
+  />
+  <button type="submit">Login</button>
+</form>
+
+<p>or</p>
+
+<button (click)="googleLogin()">Sign in with Google</button>
+
+<p *ngIf="error()">{{ error() }}</p>
