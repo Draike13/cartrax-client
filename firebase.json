@@ -1,0 +1,19 @@
+{
+  "hosting": {
+    "public": "dist/cartrax-client/browser",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
+  "rewrites": [
+    {
+      "source": "/api/**",
+      "destination": "https://cartrax-api.onrender.com/api/**"
+    },
+    { "source": "**", "destination": "/index.html" }
+  ]
+}

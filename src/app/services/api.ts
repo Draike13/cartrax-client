@@ -9,7 +9,7 @@ import { Part } from '../models/part-type';
   providedIn: 'root',
 })
 export class Api {
-  private baseUrl = 'https:cartrax-api.onrender.com/api';
+  private baseUrl = 'https://cartrax-api.onrender.com/api';
 
   readonly lockedCarsList: WritableSignal<boolean> = signal(false);
 
