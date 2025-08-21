@@ -104,27 +104,25 @@ export class PartsTable {
       data: part.data,
       id: part.id,
     });
-    console.log('Viewing cars with part:', part);
-    console.log('Selected part:', this.apiService.selectedPart());
-    console.log('Filtered cars:', this.filteredCars());
-    console.log('All cars:', this.apiService.cars());
-    console.log(
-      'car specs:',
-      this.apiService.cars().map((c) => c.spec)
-    );
+    void this.filterCarsByPart(part);
     this.router.navigate(['/carList']);
   }
 
   async filterCarsByPart(part: Part) {
-    const allCars = await this.apiService.getAllCarsWithSpecs(); // This should include car_spec
-    const normalizedType = part.type.toLowerCase().replace(/\s+/g, '_'); // handle spacing and casing
-    const key = `${normalizedType}_id`;
+    const allCars = await this.apiService.getAllCarsWithSpecs(); // each car has .spec now
+
+    const normalizedType = part.type.toLowerCase().replace(/\s+/g, '_');
+    const keys =
+      normalizedType === 'wiper_blade_size'
+        ? ['wiper_blade_size_driver_id', 'wiper_blade_size_passenger_id'] // shared table; either matches
+        : [`${normalizedType}_id`];
+
+    const wantedId = Number(part.id);
 
     const filtered = allCars.filter((car: any) => {
-      const spec = car.car_spec;
+      const spec = car.spec;
       if (!spec) return false;
-
-      return spec[key] === part.id;
+      return keys.some((k) => Number(spec[k]) === wantedId);
     });
 
     this.apiService.lockedCarsList.set(true);

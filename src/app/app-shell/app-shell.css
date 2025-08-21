@@ -4,7 +4,7 @@
 }
 
 .sidenav {
-  width: 240px;
+  width: 15rem;
   background: #1d011b;
   color: white;
   border-radius: 0 !important;
@@ -37,8 +37,8 @@ mat-nav-list a.active {
 .header {
   position: fixed;
   top: 0;
-  left: 240px; /* match sidenav width */
-  width: calc(100% - 240px); /* ensures exact width */
+  left: 15rem; /* match sidenav width */
+  width: calc(100% - 15rem); /* ensures exact width */
   height: 64px;
   z-index: 1000;
   display: flex;
@@ -47,7 +47,7 @@ mat-nav-list a.active {
   background-color: darkgrey;
   overflow-x: hidden; /* prevent child overflow */
   box-sizing: border-box;
-  padding: 0 16px; /* optional spacing */
+  padding: 0 2rem; /* optional spacing */
 }
 
 .flex-spacer {
@@ -55,5 +55,6 @@ mat-nav-list a.active {
 }
 
 .page-content {
+  margin-top: 1rem;
   padding: 54px 16px 16px;
 }
