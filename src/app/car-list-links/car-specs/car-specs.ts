@@ -6,6 +6,7 @@ import { MatTableModule } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { Api } from '../../services/api';
 import { Dialog } from '../../services/dialog';
+import { PartsLookup } from '../../services/parts-lookup';
 
 @Component({
   selector: 'app-car-specs',
@@ -22,7 +23,8 @@ export class CarSpecs {
   constructor(
     private route: ActivatedRoute,
     private apiService: Api,
-    private dialogService: Dialog
+    private dialogService: Dialog,
+    private partsLookup: PartsLookup
   ) {
     // Load initially
     this.loadSpec();
@@ -36,12 +38,21 @@ export class CarSpecs {
     });
   }
 
+  // simple pass-through for template usage
+  labelFor = (fieldOrLabel: string, id: number | string | null | undefined) =>
+    this.partsLookup.labelFor(fieldOrLabel, id);
+
   async loadSpec() {
     const selectedCar = this.apiService.selectedCar();
-    if (selectedCar) {
-      const specData = await this.apiService.getCarSpec(selectedCar.id);
-      this.spec.set(specData);
-    }
+    if (!selectedCar) return;
+
+    const specData = await this.apiService.getCarSpec(selectedCar.id);
+    const specObj = specData?.spec ?? specData?.spec ?? specData;
+
+    // preload only the needed parts lists before rendering
+    await this.partsLookup.ensureForSpec(specObj);
+
+    this.spec.set(specData);
   }
 
   editSpec() {

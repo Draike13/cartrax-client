@@ -7,7 +7,7 @@
       <div class="form-columns">
         <!-- ===== LEFT COLUMN: TABLE 1 ===== -->
         <div class="form-column">
-          @for (field of fieldsConfig.slice(0, 7); track field.control) {
+          @for (field of fieldsConfig.slice(0, 8); track field.control) {
           <mat-form-field appearance="outline">
             <mat-label>{{ field.label }}</mat-label>
             <input
@@ -32,7 +32,7 @@
 
         <!-- ===== RIGHT COLUMN: TABLE 2 ===== -->
         <div class="form-column">
-          @for (field of fieldsConfig.slice(7, 14); track field.control) {
+          @for (field of fieldsConfig.slice(8, 16); track field.control) {
           <mat-form-field appearance="outline">
             <mat-label>{{ field.label }}</mat-label>
             <input
@@ -54,7 +54,7 @@
 
         <!-- ===== ADDITIONAL FIELDS ===== -->
         <div class="form-column">
-          @for (field of fieldsConfig.slice(14); track field.control) {
+          @for (field of fieldsConfig.slice(16); track field.control) {
           <mat-form-field appearance="outline">
             <mat-label>{{ field.label }}</mat-label>
             <input

@@ -40,106 +40,194 @@
 </table>
 
 <!-- ===== SPECS + NOTES ===== -->
-<div class="specs-container">
+<div class="data-container">
   <!-- LEFT SPEC TABLE -->
   @if(spec()) {
-  <table class="spec-table">
+  <table class="spec-table spec-left">
     <tbody>
       <tr>
         <th>Engine Oil Viscosity</th>
-        <td>{{ spec()?.car_spec?.engine_oil_viscosity?.data || "" }}</td>
+        <td>
+          {{
+            labelFor(
+              "engine oil viscosity",
+              spec()?.spec?.engine_oil_viscosity_id
+            )
+          }}
+        </td>
       </tr>
       <tr>
         <th>Engine Oil Quantity</th>
-        <td>{{ spec()?.car_spec?.engine_oil_quantity?.data || "" }}</td>
+        <td>
+          {{
+            labelFor(
+              "engine oil quantity",
+              spec()?.spec?.engine_oil_quantity_id
+            )
+          }}
+        </td>
       </tr>
       <tr>
         <th>Engine Oil Filter</th>
-        <td>{{ spec()?.car_spec?.engine_oil_filter?.data || "" }}</td>
+        <td>
+          {{
+            labelFor("engine oil filter", spec()?.spec?.engine_oil_filter_id)
+          }}
+        </td>
       </tr>
       <tr>
         <th>Brake Fluid Type</th>
-        <td>{{ spec()?.car_spec?.brake_fluid_type?.data || "" }}</td>
+        <td>
+          {{ labelFor("brake fluid type", spec()?.spec?.brake_fluid_type_id) }}
+        </td>
       </tr>
       <tr>
         <th>Brake Pad</th>
-        <td>{{ spec()?.car_spec?.brake_pad?.data || "" }}</td>
+        <td>{{ labelFor("brake pad", spec()?.spec?.brake_pad_id) }}</td>
       </tr>
       <tr>
         <th>Brake Rotor</th>
-        <td>{{ spec()?.car_spec?.brake_rotor?.data || "" }}</td>
+        <td>{{ labelFor("brake rotor", spec()?.spec?.brake_rotor_id) }}</td>
       </tr>
       <tr>
         <th>Tire Size</th>
-        <td>{{ spec()?.car_spec?.tire_size?.data || "" }}</td>
+        <td>{{ labelFor("tire size", spec()?.spec?.tire_size_id) }}</td>
       </tr>
       <tr>
         <th>Tire Type</th>
-        <td>{{ spec()?.car_spec?.tire_type?.data || "" }}</td>
+        <td>{{ labelFor("tire type", spec()?.spec?.tire_type_id) }}</td>
       </tr>
       <tr>
         <th>Transmission Fluid Type</th>
-        <td>{{ spec()?.car_spec?.transmission_fluid_type?.data || "" }}</td>
+        <td>
+          {{
+            labelFor(
+              "transmission fluid type",
+              spec()?.spec?.transmission_fluid_type_id
+            )
+          }}
+        </td>
       </tr>
       <tr>
         <th>Transmission Fluid Quantity</th>
-        <td>{{ spec()?.car_spec?.transmission_fluid_quantity?.data || "" }}</td>
+        <td>
+          {{
+            labelFor(
+              "transmission fluid quantity",
+              spec()?.spec?.transmission_fluid_quantity_id
+            )
+          }}
+        </td>
       </tr>
       <tr>
         <th>Coolant Type</th>
-        <td>{{ spec()?.car_spec?.coolant_type?.data || "" }}</td>
+        <td>{{ labelFor("coolant type", spec()?.spec?.coolant_type_id) }}</td>
+      </tr>
+      <tr>
+        <th>Battery</th>
+        <td>{{ labelFor("battery", spec()?.spec?.battery_id) }}</td>
       </tr>
     </tbody>
   </table>
 
   <!-- RIGHT SPEC TABLE -->
-  <table class="spec-table">
+  <table class="spec-table spec-right">
     <tbody>
       <tr>
         <th>Engine Air Filter</th>
-        <td>{{ spec()?.car_spec?.engine_air_filter?.data || "" }}</td>
+        <td>
+          {{
+            labelFor("engine air filter", spec()?.spec?.engine_air_filter_id)
+          }}
+        </td>
       </tr>
       <tr>
         <th>Cabin Air Filter</th>
-        <td>{{ spec()?.car_spec?.cabin_air_filter?.data || "" }}</td>
+        <td>
+          {{ labelFor("cabin air filter", spec()?.spec?.cabin_air_filter_id) }}
+        </td>
       </tr>
       <tr>
-        <th>Wiper Blade Size</th>
-        <td>{{ spec()?.car_spec?.wiper_blade_size?.data || "" }}</td>
+        <th>Driver Wiper Blade</th>
+        <td>
+          {{
+            labelFor(
+              "wiper blade size",
+              spec()?.spec?.wiper_blade_size_driver_id
+            )
+          }}
+        </td>
+      </tr>
+      <tr>
+        <th>Passenger Wiper Blade</th>
+        <td>
+          {{
+            labelFor(
+              "wiper blade size",
+              spec()?.spec?.wiper_blade_size_passenger_id
+            )
+          }}
+        </td>
       </tr>
       <tr>
         <th>Headlight</th>
-        <td>{{ spec()?.car_spec?.headlight?.data || "" }}</td>
+        <td>{{ labelFor("headlight", spec()?.spec?.headlight_id) }}</td>
       </tr>
       <tr>
         <th>Taillight</th>
-        <td>{{ spec()?.car_spec?.taillight?.data || "" }}</td>
+        <td>{{ labelFor("taillight", spec()?.spec?.taillight_id) }}</td>
       </tr>
       <tr>
         <th>Turn Signal Light</th>
-        <td>{{ spec()?.car_spec?.turn_signal_light?.data || "" }}</td>
+        <td>
+          {{
+            labelFor("turn signal light", spec()?.spec?.turn_signal_light_id)
+          }}
+        </td>
       </tr>
       <tr>
         <th>License Plate Light</th>
-        <td>{{ spec()?.car_spec?.license_plate_light?.data || "" }}</td>
+        <td>
+          {{
+            labelFor(
+              "license plate light",
+              spec()?.spec?.license_plate_light_id
+            )
+          }}
+        </td>
       </tr>
       <tr>
-        <th>Battery</th>
-        <td>{{ spec()?.car_spec?.battery?.data || "" }}</td>
+        <th>Brake Light</th>
+        <td>{{ labelFor("brake light", spec()?.spec?.brake_light_id) }}</td>
       </tr>
       <tr>
         <th>Serpentine Belt</th>
-        <td>{{ spec()?.car_spec?.serpentine_belt?.data || "" }}</td>
+        <td>
+          {{ labelFor("serpentine belt", spec()?.spec?.serpentine_belt_id) }}
+        </td>
       </tr>
       <tr>
         <th>Thermostat</th>
-        <td>{{ spec()?.car_spec?.thermostat?.data || "" }}</td>
+        <td>{{ labelFor("thermostat", spec()?.spec?.thermostat_id) }}</td>
       </tr>
     </tbody>
   </table>
 
+  <!-- ADDITIONAL SPECS TABLE -->
+  <table class="additional-spec-table additional">
+    <th>
+      <tr>
+        <th>License Plate Number</th>
+      </tr>
+    </th>
+    <tbody>
+      <tr>
+        <td>{{ spec()?.spec?.license_plate_number || "" }}</td>
+      </tr>
+    </tbody>
+  </table>
   <!-- NOTES TABLE -->
-  <table class="spec-table notes-table">
+  <table class="spec-table notes-table notes">
     <thead>
       <tr>
         <th colspan="1">Notes</th>
@@ -155,7 +243,7 @@
   </table>
 
   <!-- BUTTON COLUMN -->
-  <div class="spec-buttons">
+  <div class="spec-buttons actions">
     <button class="spec-btn edit-btn" (click)="editSpec()">
       Edit Spec Sheet
     </button>

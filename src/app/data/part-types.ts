@@ -2,6 +2,7 @@ export const PART_TYPES: string[] = [
   'battery',
   'brake fluid type',
   'brake pad',
+  'brake light',
   'brake rotor',
   'cabin air filter',
   'camshaft position sensor',

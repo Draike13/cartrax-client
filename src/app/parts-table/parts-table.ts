@@ -42,10 +42,10 @@ export class PartsTable {
     if (!filter) return allCars;
 
     return allCars.filter((car) => {
-      const spec = car.car_spec as Record<string, number | null> | undefined;
+      const spec = car.spec as Record<string, number | null> | undefined;
       if (!spec) return false;
 
-      // Check if any key in car_spec ends with _id and the value matches filter.id
+      // Check if any key in car.spec ends with _id and the value matches filter.id
       return Object.entries(spec).some(
         ([key, value]) =>
           key.endsWith('_id') &&
@@ -110,7 +110,7 @@ export class PartsTable {
     console.log('All cars:', this.apiService.cars());
     console.log(
       'car specs:',
-      this.apiService.cars().map((c) => c.car_spec)
+      this.apiService.cars().map((c) => c.spec)
     );
     this.router.navigate(['/carList']);
   }

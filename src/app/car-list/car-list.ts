@@ -107,7 +107,7 @@ export class CarList {
   }
   setSelectedCar(car: Car) {
     this.apiService.selectedCar.set(car);
-    this.apiService.selectedCarId.set(car.id);
+    this.apiService.loadSingleCar(car.id);
   }
 
   unlockCarList() {

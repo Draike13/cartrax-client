@@ -13,7 +13,7 @@ import { Api } from '../services/api';
   styleUrl: './delete-dialog.css',
 })
 export class DeleteDialog {
-  vin: string;
+  vin: string | undefined;
   userInput = '';
 
   constructor(
@@ -21,11 +21,11 @@ export class DeleteDialog {
     private dialogService: Dialog,
     private apiService: Api
   ) {
-    this.vin = this.dialogService.selectedCar()!.vin;
+    this.vin = this.dialogService.selectedCar()?.vin;
   }
 
   matchesVin() {
-    return this.userInput.trim().toUpperCase() === this.vin.toUpperCase();
+    return this.userInput.trim().toUpperCase() === this.vin?.toUpperCase();
   }
 
   cancel() {

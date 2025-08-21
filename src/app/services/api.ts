@@ -1,15 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { effect, Injectable, signal, WritableSignal } from '@angular/core';
 import { Car } from '../models/car';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { firstValueFrom } from 'rxjs';
 import { Part } from '../models/part-type';
+import { CarSpec } from '../models/car-spec';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Api {
-  private baseUrl = 'https://cartrax-api.onrender.com/api';
+  private baseUrl = 'http://localhost:3000/api';
 
   readonly lockedCarsList: WritableSignal<boolean> = signal(false);
 
@@ -40,28 +40,34 @@ export class Api {
       if (this.updateSignal()) {
         this.updateSignal.set(false);
         const cars = await firstValueFrom(
-          this.http.get<Car[]>(`${this.baseUrl}/cars?with=specs`)
+          this.http.get<Car[]>(`${this.baseUrl}/cars`)
         );
         this.cars.set(cars);
       }
     });
   }
 
-  async getAllCarsWithSpecs() {
-    return firstValueFrom(
-      this.http.get<Car[]>(`${this.baseUrl}/cars?with=specs`)
+  async loadSingleCar(id: number) {
+    const car = await firstValueFrom(
+      this.http.get<Car>(`${this.baseUrl}/cars/${id}?expand=parts`)
     );
+    this.selectedSpec.set(car);
+    this.selectedCarId.set(id);
+  }
+
+  async getAllCarsWithSpecs() {
+    return firstValueFrom(this.http.get<Car[]>(`${this.baseUrl}/cars`));
   }
 
   async createCar(newCar: Car) {
     return firstValueFrom(
-      this.http.post<Car>(`${this.baseUrl}/cars`, { car: newCar })
+      this.http.post<Car>(`${this.baseUrl}/cars`, newCar)
     ).then(() => this.updateSignal.set(true));
   }
 
-  async updateCar(id: number, udatedCar: Car) {
+  async updateCar(id: string | number, patch: any) {
     return firstValueFrom(
-      this.http.put<Car>(`${this.baseUrl}/cars/${id}`, { car: udatedCar })
+      this.http.patch<Car>(`${this.baseUrl}/cars/${id}`, patch)
     ).then(() => this.updateSignal.set(true));
   }
 
@@ -74,6 +80,12 @@ export class Api {
   async searchByVin(vin: string) {
     return firstValueFrom(
       this.http.get<Car>(`${this.baseUrl}/cars/vin/${vin}`)
+    );
+  }
+
+  async searchByLicensePlate(plate: string) {
+    return firstValueFrom(
+      this.http.get<Car>(`${this.baseUrl}/cars/license/${plate}`)
     );
   }
 
@@ -92,7 +104,9 @@ export class Api {
     if (!type) return;
     try {
       const parts = await firstValueFrom(
-        this.http.get<Part[]>(`${this.baseUrl}/parts?type=${type}`)
+        this.http.get<Part[]>(
+          `${this.baseUrl}/parts/${encodeURIComponent(type)}`
+        )
       );
       this.partsList.set(parts || []);
     } catch (error) {
@@ -100,13 +114,47 @@ export class Api {
       this.partsList.set([]);
     }
   }
+  async fetchParts(type: string): Promise<Part[]> {
+    if (!type) return [];
+    try {
+      const url = `${this.baseUrl}/parts/${encodeURIComponent(type)}`;
+      const parts = await firstValueFrom(this.http.get<Part[]>(url));
+      return parts ?? [];
+    } catch (error) {
+      console.error('Error fetching parts:', error);
+      return [];
+    }
+  }
+
+  async getPart(type: string, id: number | string): Promise<Part | null> {
+    if (!type || id == null) return null;
+
+    const encodedType = encodeURIComponent(type);
+    const encodedId = encodeURIComponent(String(id));
+
+    try {
+      // If you already have this backend route, this will work directly:
+      // GET /api/parts/:type/:id  ->  { id, type, data }
+      return await firstValueFrom(
+        this.http.get<Part>(`${this.baseUrl}/parts/${encodedType}/${encodedId}`)
+      );
+    } catch (e) {
+      // Fallback (no backend change needed): use your existing list call + find
+      try {
+        await this.loadParts(type); // this sets partsList()
+        const list = this.partsList() || [];
+        const wanted = Number(id);
+        return list.find((p) => Number(p.id) === wanted) ?? null;
+      } catch {
+        return null;
+      }
+    }
+  }
 
   async createPart(type: string, data: string) {
     try {
       const newPart = await firstValueFrom(
-        this.http.post<Part>(`${this.baseUrl}/parts?type=${type}`, {
-          part: { data },
-        })
+        this.http.post<Part>(`${this.baseUrl}/parts/${type}`, { data })
       );
 
       // Push new part into the list without a reload
@@ -122,9 +170,7 @@ export class Api {
   async updatePart(type: string, id: number, data: string) {
     try {
       await firstValueFrom(
-        this.http.put<Part>(`${this.baseUrl}/parts/${id}?type=${type}`, {
-          part: { data },
-        })
+        this.http.patch<Part>(`${this.baseUrl}/parts/${type}/${id}`, { data })
       );
       // Refresh parts list after update
       await this.loadParts(type);
@@ -136,7 +182,7 @@ export class Api {
   async deletePart(type: string, id: number) {
     try {
       await firstValueFrom(
-        this.http.delete(`${this.baseUrl}/parts/${id}?type=${type}`)
+        this.http.delete(`${this.baseUrl}/parts/${type}/${id}`)
       );
       // Refresh parts list after deletion
       await this.loadParts(type);
@@ -148,7 +194,7 @@ export class Api {
   async getCarSpec(carId: number) {
     try {
       const carSpec = await firstValueFrom(
-        this.http.get<Car>(`${this.baseUrl}/cars/${carId}?with=specs`)
+        this.http.get<Car>(`${this.baseUrl}/cars/${carId}`)
       );
       console.log('Fetched car specs:', carSpec);
       this.selectedSpec.set(carSpec);
@@ -159,13 +205,16 @@ export class Api {
     }
   }
 
-  async updateCarSpec(carId: number, specData: any) {
+  async updateCarSpec(
+    carId: number,
+    specData: CarSpec,
+    opts?: { clear?: boolean }
+  ) {
+    const q = opts?.clear ? '?clear=1' : '';
     try {
       console.log('Updating car spec with data:', specData);
       const updatedSpec = await firstValueFrom(
-        this.http.put(`${this.baseUrl}/cars/${carId}/update_specs`, {
-          car_spec: specData,
-        })
+        this.http.patch(`${this.baseUrl}/cars/${carId}${q}`, { spec: specData })
       );
       console.log('Car spec updated:', updatedSpec);
     } catch (error: any) {

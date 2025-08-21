@@ -7,7 +7,6 @@ import { Api } from '../../services/api';
 import { MatOptionModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Dialog } from '../../services/dialog';
 import { DialogRef } from '@angular/cdk/dialog';
 
 @Component({
@@ -28,74 +27,80 @@ export class EditSpec {
 
   fieldsConfig = [
     {
-      control: 'engine_oil_viscosity',
+      control: 'engine_oil_viscosity_id',
       label: 'Engine Oil Viscosity',
       type: 'engine oil viscosity',
     },
     {
-      control: 'engine_oil_quantity',
+      control: 'engine_oil_quantity_id',
       label: 'Engine Oil Quantity',
       type: 'engine oil quantity',
     },
     {
-      control: 'engine_oil_filter',
+      control: 'engine_oil_filter_id',
       label: 'Engine Oil Filter',
       type: 'engine oil filter',
     },
     {
-      control: 'brake_fluid_type',
+      control: 'brake_fluid_type_id',
       label: 'Brake Fluid Type',
       type: 'brake fluid type',
     },
-    { control: 'brake_pad', label: 'Brake Pad', type: 'brake pad' },
-    { control: 'brake_rotor', label: 'Brake Rotor', type: 'brake rotor' },
-    { control: 'tire_size', label: 'Tire Size', type: 'tire size' },
-    { control: 'tire_type', label: 'Tire Type', type: 'tire type' },
+    { control: 'brake_pad_id', label: 'Brake Pad', type: 'brake pad' },
+    { control: 'brake_rotor_id', label: 'Brake Rotor', type: 'brake rotor' },
+    { control: 'tire_size_id', label: 'Tire Size', type: 'tire size' },
+    { control: 'tire_type_id', label: 'Tire Type', type: 'tire type' },
     {
-      control: 'transmission_fluid_type',
+      control: 'transmission_fluid_type_id',
       label: 'Transmission Fluid Type',
       type: 'transmission fluid type',
     },
     {
-      control: 'transmission_fluid_quantity',
+      control: 'transmission_fluid_quantity_id',
       label: 'Transmission Fluid Quantity',
       type: 'transmission fluid quantity',
     },
-    { control: 'coolant_type', label: 'Coolant Type', type: 'coolant type' },
+    { control: 'coolant_type_id', label: 'Coolant Type', type: 'coolant type' },
     {
-      control: 'engine_air_filter',
+      control: 'engine_air_filter_id',
       label: 'Engine Air Filter',
       type: 'engine air filter',
     },
     {
-      control: 'cabin_air_filter',
+      control: 'cabin_air_filter_id',
       label: 'Cabin Air Filter',
       type: 'cabin air filter',
     },
     {
-      control: 'wiper_blade_size',
-      label: 'Wiper Blade Size',
+      control: 'wiper_blade_size_driver_id',
+      label: 'Driver Wiper Blade Size',
       type: 'wiper blade size',
     },
-    { control: 'headlight', label: 'Headlight', type: 'headlight' },
-    { control: 'taillight', label: 'Taillight', type: 'taillight' },
     {
-      control: 'turn_signal_light',
+      control: 'wiper_blade_size_passenger_id',
+      label: 'Passenger Wiper Blade Size',
+      type: 'wiper blade size',
+    },
+    { control: 'headlight_id', label: 'Headlight', type: 'headlight' },
+    { control: 'taillight_id', label: 'Taillight', type: 'taillight' },
+    {
+      control: 'turn_signal_light_id',
       label: 'Turn Signal Light',
       type: 'turn signal light',
     },
     {
-      control: 'license_plate_light',
+      control: 'license_plate_light_id',
       label: 'License Plate Light',
       type: 'license plate light',
     },
-    { control: 'battery', label: 'Battery', type: 'battery' },
+    { control: 'brake_light_id', label: 'Brake Light', type: 'brake light' },
+    { control: 'battery_id', label: 'Battery', type: 'battery' },
     {
-      control: 'serpentine_belt',
+      control: 'serpentine_belt_id',
       label: 'Serpentine Belt',
       type: 'serpentine belt',
     },
-    { control: 'thermostat', label: 'Thermostat', type: 'thermostat' },
+    { control: 'thermostat_id', label: 'Thermostat', type: 'thermostat' },
   ];
 
   // Maps for parts & filtered results
@@ -124,15 +129,38 @@ export class EditSpec {
     });
     this.specForm = this.fb.group(group);
 
-    /** 2️⃣ Patch with current spec values if available */
-    const currentSpec = this.apiService.selectedSpec();
-    if (currentSpec?.car_spec) {
-      const formValues: any = {};
-      this.fieldsConfig.forEach((field) => {
-        formValues[field.control] =
-          currentSpec.car_spec[field.control]?.data || '';
-      });
-      this.specForm.patchValue(formValues);
+    /** 2️⃣ Prefill from saved IDs (async, no await in ctor) */
+    {
+      const currentSpec = this.apiService.selectedSpec();
+      if (currentSpec?.spec) {
+        (async () => {
+          const formValues: any = {};
+
+          await Promise.all(
+            this.fieldsConfig.map(async (field) => {
+              const raw = currentSpec.spec[field.control]; // could be number | string | null | {data}
+
+              // if backend ever returns a hydrated object, use it
+              if (raw && typeof raw === 'object') {
+                formValues[field.control] = raw.data ?? '';
+                return;
+              }
+
+              // empty -> blank input
+              if (raw == null || raw === '' || raw === 'null') {
+                formValues[field.control] = '';
+                return;
+              }
+
+              // fetch the part label for this id
+              const part = await this.apiService.getPart(field.type, raw);
+              formValues[field.control] = part?.data ?? '';
+            })
+          );
+
+          this.specForm.patchValue(formValues, { emitEvent: false });
+        })();
+      }
     }
 
     /** 3️⃣ Preload all parts lists for matching in saveSpecSheet */
@@ -232,14 +260,14 @@ export class EditSpec {
       );
 
       if (match) {
-        updatedValues[`${field.control}_id`] = match.id;
+        updatedValues[`${field.control}`] = match.id;
         continue;
       }
 
       // 5️ If no match → create a new part
       try {
         const newPart = await this.apiService.createPart(field.type, value);
-        updatedValues[`${field.control}_id`] = newPart.id;
+        updatedValues[`${field.control}`] = newPart.id;
       } catch (err) {
         console.error(`Error creating part for ${field.control}`, err);
         return; // Stop save if creation fails
@@ -253,10 +281,11 @@ export class EditSpec {
     }
 
     try {
-      await this.apiService.updateCarSpec(
-        this.apiService.selectedCarId()!,
-        updatedValues
-      );
+      console.log(this.apiService.selectedCarId()),
+        await this.apiService.updateCarSpec(
+          this.apiService.selectedCarId()!,
+          updatedValues
+        );
       this.apiService.updateSpecs.set(true);
       this.dialogRef.close();
       console.log('Spec sheet saved successfully!');

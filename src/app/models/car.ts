@@ -1,12 +1,13 @@
+import { CarSpec } from './car-spec';
 export interface Car {
   id: number;
-  vin: string;
+  vin?: string;
   model: string;
   make: string;
-  trim: string;
-  year: number;
+  trim?: string;
+  year: string;
   color: string;
-  mileage: number;
+  mileage?: string;
   notes?: string;
-  car_spec?: any;
+  spec?: CarSpec;
 }

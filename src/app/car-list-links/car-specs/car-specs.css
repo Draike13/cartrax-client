@@ -5,6 +5,10 @@
   min-width: 900px;
 }
 
+:host * {
+  box-sizing: border-box;
+}
+
 /* === Top Car Info Table (Material) === */
 .car-info-table {
   width: 60%;
@@ -24,30 +28,59 @@
   }
 
   /* Keep min size for empty cells */
-  .mat-mdc-cell:empty {
-    min-width: 60px;
-    display: inline-block;
+  .mat-mdc-cell:empty::after {
     content: "\00a0";
+    display: inline-block;
+    min-width: 60px;
+    height: 1.6em;
   }
 }
 
-/* === Bottom Tables Container === */
-.specs-container {
-  display: flex;
-  justify-content: flex-start;
-  gap: 2%;
-  margin-top: 2rem;
+/* === Bottom Data Container (GRID) ===
+   layout:
+     row 1: [left] [right] [notes] [actions]
+     row 2: [add  ] [add  ] [notes] [actions]
+*/
+.data-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.2fr 0.8fr; /* left, right, notes, buttons */
+  grid-template-areas:
+    "left  right  notes actions"
+    "add   add    notes actions";
+  gap: 4%;
   width: 60%;
+  margin-top: 2rem;
+}
+
+/* Place items into grid areas */
+.spec-left {
+  grid-area: left;
+}
+.spec-right {
+  margin-left: 9rem;
+  grid-area: right;
+}
+.additional {
+  grid-area: add;
+}
+.notes {
+  max-width: 40%;
+  margin-left: 8rem;
+  grid-area: notes;
+}
+.actions {
+  grid-area: actions;
+  align-self: start;
 }
 
 /* === Generic Spec Table === */
 .spec-table {
-  flex: 1 1 auto; /* Equal sizing by default */
-  min-width: 220px;
   border-collapse: collapse;
   font-size: 1rem;
   background: #ccc;
   border: 1px solid #aaa;
+  min-width: 220px;
+  width: 100%;
 
   th {
     background: #bbb;
@@ -55,6 +88,7 @@
     white-space: nowrap;
     width: 40%;
     min-width: 60px; /* Keep header from collapsing */
+    text-align: left;
   }
 
   td {
@@ -62,41 +96,57 @@
     padding: 10px 14px;
     width: 60%;
     border-bottom: 1px solid #ccc;
+    vertical-align: top;
   }
 
-  .spec-table td {
+  /* Remove striping entirely (consistent bg) */
+  tr:nth-child(even) td {
     background: #e9e9e9;
-    padding: 10px 14px;
-    width: 60%;
-    min-width: 60px; /* Keep a little space for empty cells */
-    border-bottom: 1px solid #ccc; /* Thin divider line */
-  }
-
-  /* Remove striping entirely */
-  .spec-table tr:nth-child(even) td {
-    background: #e9e9e9; /* same as odd rows */
-  }
-
-  /* Empty cells minimal height placeholder */
-  .spec-table td:empty {
-    min-width: 8rem;
-    height: 1.5em; /* keeps a consistent thin height */
-    display: inline-block;
-    content: "\00a0";
   }
 
   /* Empty cells keep size */
-  td:empty {
-    min-width: 8rem;
-    display: inline-block;
+  td:empty::after {
     content: "\00a0";
+    display: inline-block;
+    min-width: 8rem;
+    height: 1.6em;
+  }
+}
+
+/* === Additional Specs Table (License Plate) ===
+   Visually ties to spec tables, spans beneath left+right only. */
+.additional-spec-table {
+  border-collapse: collapse;
+  background: #ccc;
+  border: 1px solid #aaa;
+  margin-top: 0.5rem; /* slight separation from the spec tables */
+  width: 100%;
+
+  thead th {
+    background: #bbb;
+    padding: 10px 14px;
+    text-align: left;
+  }
+
+  tbody td {
+    background: #e9e9e9; /* match spec table cells */
+    padding: 10px 14px;
+    border-top: 1px solid #ccc; /* subtle divider line */
+  }
+
+  /* Empty cells keep size */
+  td:empty::after {
+    content: "\00a0";
+    display: inline-block;
+    min-width: 8rem;
+    height: 1.6em;
   }
 }
 
 /* === Notes Table Modifier === */
 .notes-table {
-  flex: 1.2 1 auto; /* Slightly wider than spec tables */
   min-width: 280px;
+  width: 100%;
 
   th {
     text-align: center;
@@ -110,7 +160,7 @@
     width: 100%;
     min-height: 300px;
     border: none;
-    background: transparent;
+    background: #e9e9e9; /* match other td backgrounds */
     padding: 10px;
     font-size: 1rem;
     resize: vertical;
@@ -121,15 +171,14 @@
 .spec-buttons {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  flex: 1; /* take remaining space */
-  min-width: 20%; /* don't collapse too small */
+  justify-content: flex-start;
+  min-width: 220px; /* keep column from collapsing */
   gap: 1rem; /* space between buttons */
 }
 
 /* Base button styling */
 .spec-btn {
-  flex: 1;
+  flex: 0 0 auto;
   font-size: 1.2rem;
   font-weight: bold;
   padding: 1rem;
@@ -139,6 +188,9 @@
   cursor: pointer;
   text-align: center;
   min-height: 100px; /* squarish look */
+  max-height: 120px; /* prevent overly tall buttons */
+  min-width: 200px; /* readable width */
+  overflow: hidden; /* guard against long text */
   transition: background 0.2s ease, transform 0.1s ease;
 }
 
@@ -150,7 +202,6 @@
 .edit-btn {
   background-color: #4caf50;
 }
-
 .edit-btn:hover {
   background-color: #45a049;
 }
@@ -159,7 +210,29 @@
 .clear-btn {
   background-color: #f44336;
 }
-
 .clear-btn:hover {
   background-color: #d7352b;
+}
+
+/* === Responsive fallback (optional) === */
+@media (max-width: 1200px) {
+  .data-container {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "left  right"
+      "add   add"
+      "notes notes"
+      "actions actions";
+  }
+
+  .spec-buttons {
+    min-width: 0;
+    flex-direction: row;
+  }
+
+  .spec-btn {
+    min-height: 60px;
+    max-height: 80px;
+    min-width: 140px;
+  }
 }

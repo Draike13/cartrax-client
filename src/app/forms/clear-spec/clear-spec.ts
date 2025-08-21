@@ -16,20 +16,21 @@ export class ClearSpec {
   ) {}
 
   async clearSpec() {
-    const currentSpec = this.apiService.selectedSpec()?.car_spec;
+    const currentSpec = this.apiService.selectedCar()?.spec;
     if (!currentSpec) return;
 
     const clearedValues: any = {};
 
     // Loop over every property in the spec
     for (const key of Object.keys(currentSpec)) {
-      clearedValues[`${key}_id`] = null;
+      clearedValues[`${key}`] = null;
     }
 
     try {
       await this.apiService.updateCarSpec(
         this.apiService.selectedCarId()!,
-        clearedValues
+        clearedValues,
+        { clear: true }
       );
       this.apiService.updateSpecs.set(true); // trigger reload
       this.dialogRef.close();
