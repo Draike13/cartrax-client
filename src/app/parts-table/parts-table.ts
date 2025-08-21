@@ -1,6 +1,17 @@
-import { Component, computed, signal, WritableSignal } from '@angular/core';
+import {
+  Component,
+  computed,
+  signal,
+  ViewChild,
+  WritableSignal,
+} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import {
+  MatAutocomplete,
+  MatAutocompleteModule,
+  MatAutocompleteTrigger,
+  MatOption,
+} from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -163,5 +174,24 @@ export class PartsTable {
 
     const normalized = part.toLowerCase().replace(/\s+/g, '_');
     return this.SPEC_PART_TYPES.includes(normalized);
+  }
+
+  @ViewChild(MatAutocomplete) auto!: MatAutocomplete;
+  @ViewChild(MatAutocompleteTrigger) autoTrigger!: MatAutocompleteTrigger;
+
+  clearPartType(input: HTMLInputElement) {
+    this.partTypeSearch = '';
+    this.filteredPartTypes = [...this.partTypes]; // reset the list
+    this.apiService.selectedPartType.set(null); // clear the active filter
+    this.searchActive.set(false); // optional: collapse “search active” UI
+
+    // fully clear any previous selected/checkmarked option
+    if (this.auto) {
+      this.auto.options.forEach((opt: MatOption) => opt.deselect());
+    }
+    if (this.autoTrigger) {
+      this.autoTrigger.closePanel(); // reset active item/highlight
+    }
+    input.focus();
   }
 }
