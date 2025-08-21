@@ -79,6 +79,7 @@
         >
           <mat-icon>delete</mat-icon>
         </button>
+        @if(isSpecPart()) {
         <button
           mat-icon-button
           matTooltip="View cars with this part (coming soon)"
@@ -86,6 +87,7 @@
         >
           <mat-icon>directions_car</mat-icon>
         </button>
+        }
       </td>
     </ng-container>
 

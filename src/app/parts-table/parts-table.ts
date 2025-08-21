@@ -27,6 +27,32 @@ import { Router } from '@angular/router';
   styleUrl: './parts-table.css',
 })
 export class PartsTable {
+  // car-spec-parts.ts (could be its own constants file)
+  SPEC_PART_TYPES = [
+    'engine_oil_viscosity',
+    'engine_oil_quantity',
+    'engine_oil_filter',
+    'brake_fluid_type',
+    'brake_pad',
+    'brake_rotor',
+    'tire_size',
+    'tire_type',
+    'transmission_fluid_type',
+    'transmission_fluid_quantity',
+    'coolant_type',
+    'battery',
+    'engine_air_filter',
+    'cabin_air_filter',
+    'wiper_blade_size',
+    'headlight',
+    'taillight',
+    'turn_signal_light',
+    'license_plate_light',
+    'brake_light',
+    'serpentine_belt',
+    'thermostat',
+  ];
+
   displayedColumns = ['type', 'data', 'actions'];
   searchActive: WritableSignal<boolean> = signal(false);
 
@@ -129,5 +155,13 @@ export class PartsTable {
     this.apiService.cars.set(filtered);
     this.dialogService.searchActive.set(true);
     this.router.navigate(['/carList']);
+  }
+
+  isSpecPart(): boolean {
+    const part = this.apiService.selectedPartType();
+    if (!part) return false;
+
+    const normalized = part.toLowerCase().replace(/\s+/g, '_');
+    return this.SPEC_PART_TYPES.includes(normalized);
   }
 }
