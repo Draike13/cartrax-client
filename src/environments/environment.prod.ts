@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://cartrax-api.onrender.com/api', // <- your Render API base
+  apiBaseUrl: 'https://cartrax-de1e8.web.app/api', // <- your Render API base
   firebase: {
     apiKey: 'AIzaSyAtvPw1hX0npBR5t7oOiuIN1lfZXF4uX8M',
     authDomain: 'cartrax-de1e8.firebaseapp.com',

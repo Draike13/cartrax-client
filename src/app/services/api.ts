@@ -9,7 +9,7 @@ import { CarSpec } from '../models/car-spec';
   providedIn: 'root',
 })
 export class Api {
-  private baseUrl = 'http://localhost:3000/api';
+  private baseUrl = 'https://cartrax-de1e8.web.app/api';
 
   readonly lockedCarsList: WritableSignal<boolean> = signal(false);
 
